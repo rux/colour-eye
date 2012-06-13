@@ -171,8 +171,6 @@ delete img;
 
 
 
-
-
     function onBodyLoad()
     {       
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -182,34 +180,44 @@ delete img;
         // anything here will be run once Phonegap is ready
         navigator.notification.alert("Cordova is working");
         
-        
-    }
-
-
-    function capturePhoto() {
-        // alert("1");
+        function capturePhoto() {
+        navigator.notification.alert("1");
         navigator.camera.getPicture(onSuccess, onFail, { quality: 5,
             destinationType: Camera.DestinationType.FILE_URI,
-            sourceType:Camera.PictureSourceType.CAMERA })
+            sourceType:Camera.PictureSourceType.CAMERA,
+            allowEdit:false,
+            encodingType:Camera.EncodingType.JPEG,
+            targetWidth:32,
+            targetHeight:32,
+            mediaType:Camera.MediaType.PICTURE,
+            correctOrientation: true,
+            saveToPhotoAlbum: false
+            
+            })
         // alert("2");
-    }
+        }
     
-    function onSuccess(imageURI) {
-        draw(imageURI);
-        // alert('win');
+        function onSuccess(imageURI) {
+            navigator.notification.alert('win');
+            // draw(imageURI);
         
+        }
+
+        function onFail(message) {
+            navigator.notification.alert('fail');
+        }
     }
 
-    function onFail(message) {
-        // alert('fail');
-    }
+
+
+
 
 
 
 
 </script>
 </head>
-<body  onload="onBodyLoad()">
+<body onLoad="onBodyLoad()">
 <canvas id="canvas" width="20" height="20"></canvas>
 <h1>Colour Tester</h1>
 
