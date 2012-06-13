@@ -1,82 +1,262 @@
-<!DOCTYPE html>
-<html>
-<!--
-#
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-# 
-# http://www.apache.org/licenses/LICENSE-2.0
-# 
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#  KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
-#
--->
-  <head>
-  <title></title>
-  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
-	<meta charset="utf-8">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Colour tester</title>
+<script language="javascript" src="ntc2.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
+
+<script language="javascript">
+
+function rgb2hsl(r, g, b){
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if(max == min){
+        h = s = 0; // achromatic
+    }else{
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return [h, s, l];
+}
+
+function dec2hex(d) {
+var n1 = d&15;
+var n2 = (d&240)>>4;
+return n2.toString(16)+n1.toString(16);
+}
+
+function rgb2html(r, g, b) {
+return '#'+dec2hex(r)+dec2hex(g)+dec2hex(b);
+}
+
+function hsl2int(h, s, l) {
+    var decColor = Math.floor(l*127) | ( Math.floor(s*127) << 7) | ( Math.floor(h*1023) << 14);
+    return decColor;
+}
+
+function cmpLength(a,b) { 
+return (b.length-a.length); }
+
+function detect2Colour(data) {
+var i;
+var hsldata= new Array();
+var sldata=  new Array();
+var ldata= new Array();
+
+for (i=0; i<1024; i++) { hsldata[i]=new Array(); }
+for (i=0; i<128; i++) { sldata[i]=new Array(); }
+for (i=0; i<128; i++) { ldata[i]=new Array(); }
+
+for (i=0; i<data.length; i+=4) {
+var hsl=rgb2hsl(data[i], data[i+1], data[i+2]);
+var hue=Math.floor(hsl[0]*1023);
+hsldata[hue].push(i);
+}
+hsldata.sort(cmpLength);
+
+for (i=0; i<hsldata[0].length; i++) {
+var j=hsldata[0][i];
+var hsl=rgb2hsl(data[j], data[j+1], data[j+2]);
+var sat=Math.floor(hsl[1]*127);
+sldata[sat].push(j);
+}
+sldata.sort(cmpLength);
+
+for (i=0; i<sldata[0].length; i++) {
+var j=sldata[0][i];
+var hsl=rgb2hsl(data[j], data[j+1], data[j+2]);
+var lum=Math.floor(hsl[2]*127);
+ldata[lum].push(j);
+}
+ldata.sort(cmpLength);
+
+var j=ldata[0][0];
+var rgb=[ data[j], data[j+1], data[j+2] ];
+return rgb;
+}
+
+function detectColour(data) {
+var i;
+var hsldata= new Array();
+var sldata=  new Array();
+var ldata= new Array();
+
+for (i=0; i<256; i++) { 
+hsldata[i]=new Array();
+sldata[i]=new Array();
+ldata[i]=new Array();
+}
+
+for (i=0; i<data.length; i+=4) {
+var hsl=rgb2hsl(data[i], data[i+1], data[i+2]);
+var lum=Math.floor(hsl[2]*255);
+hsldata[lum].push(i);
+}
+hsldata.sort(cmpLength);
+
+for (i=0; i<hsldata[0].length; i++) {
+var j=hsldata[0][i];
+var hsl=rgb2hsl(data[j], data[j+1], data[j+2]);
+var hue=Math.floor(hsl[0]*255);
+sldata[hue].push(j);
+}
+sldata.sort(cmpLength);
+
+for (i=0; i<sldata[0].length; i++) {
+var j=sldata[0][i];
+var hsl=rgb2hsl(data[j], data[j+1], data[j+2]);
+var sat=Math.floor(hsl[1]*255);
+ldata[sat].push(j);
+}
+ldata.sort(cmpLength);
+
+var j=ldata[0][0];
+var rgb=[ data[j], data[j+1], data[j+2] ];
+return rgb;
+}
 
 
-	<!-- iPad/iPhone specific css below, add after your main css >
-	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
-	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
-	-->
-	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
-	<script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
-    <script type="text/javascript">
+function draw(url) {
+ var orig = document.getElementById('canvas');
+    var  ctx = orig.getContext('2d');
+    var img = new Image();
+    img.onload = function(){
+ctx.clearRect(0,0,orig.width,orig.height);
+          ctx.drawImage(img, 0,0, orig.width, orig.height);
+var imgd = ctx.getImageData(0, 0, orig.width, orig.height);
+var data=imgd.data;
+var pix =detectColour(data);
+var colour = rgb2html(pix[0], pix[1], pix[2]);
+    var n_match  = ntc.name(colour);
+var hsl=rgb2hsl(pix[0], pix[1], pix[2]);
+var hslint = hsl2int(hsl[0],hsl[1],hsl[2]);
+
+document.bgColor = colour;
+document.getElementById('width').value=img.width;
+document.getElementById('height').value=img.height;
+document.getElementById('red').value=pix[0];
+document.getElementById('green').value=pix[1];
+document.getElementById('blue').value=pix[2];
+document.getElementById('bgcolor').value=colour;
+document.getElementById('hslint').value= hslint;
+var prefix = "";
+
+var sat ='medium';
+if (hsl[1]<0.3) {sat='weak'; prefix=sat+' ';}
+else if (hsl[1]>0.7) {sat='strong';prefix=sat+' ';}
+document.getElementById('sat').value=sat;
+
+var lum ='medium';
+if (hsl[2]<0.3) {lum='dark';prefix=prefix+lum+' ';}
+else if (hsl[2]>0.7) {lum='light';prefix=prefix+lum+' ';}
+document.getElementById('lum').value=lum;
+document.getElementById('col').value=prefix+n_match[3] +'.\n'+ n_match[1];
+
+document.getElementById('col').focus();
+delete img;
+    }
+    img.src = url;
+}
 
 
-	// If you want to prevent dragging, uncomment this section
-	/*
-	function preventBehavior(e) 
-	{ 
-      e.preventDefault(); 
-    };
-	document.addEventListener("touchmove", preventBehavior, false);
-	*/
-	
-	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
-	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-	for more details -jm */
-	/*
-	function handleOpenURL(url)
-	{
-		// TODO: do something with the url passed in.
-	}
-	*/
-	
-	function onBodyLoad()
-	{		
-		document.addEventListener("deviceready", onDeviceReady, false);
-	}
-	
-	/* When this function is called, Cordova has been initialized and is ready to roll */
-	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
-	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-	for more details -jm */
-	function onDeviceReady()
-	{
-		// do your thing!
-		// navigator.notification.alert("Cordova is working")
-	}
+
+
+
+    function onBodyLoad()
+    {       
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+    function onDeviceReady()
+    {
+        // anything here will be run once Phonegap is ready
+        navigator.notification.alert("Cordova is working");
+        
+        
+    }
+
+
+    function capturePhoto() {
+        // alert("1");
+        navigator.camera.getPicture(onSuccess, onFail, { quality: 5,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType:Camera.PictureSourceType.CAMERA })
+        // alert("2");
+    }
     
-    </script>
-  </head>
-  <body onload="onBodyLoad()">
-	<h1>hello world</h1>
-	<ol>
-		<li><a href="talk.html">talk</a></li>
-		<li><a href="colour-test.html">colour test</a></li>
-	</ol>
-  </body>
+    function onSuccess(imageURI) {
+        draw(imageURI);
+        // alert('win');
+        
+    }
+
+    function onFail(message) {
+        // alert('fail');
+    }
+
+
+
+
+</script>
+</head>
+<body  onload="onBodyLoad()">
+<canvas id="canvas" width="20" height="20"></canvas>
+<h1>Colour Tester</h1>
+
+<form id="image">
+
+<input  onclick="draw('mobile-01.jpg');" type="button" name="submit0" value="Test colour 0" /><br/>
+<input  onclick="draw('test-00.jpg');" type="button" name="submit1" value="Test colour 1" /><br/>
+<input  onclick="draw('test-01.jpg');" type="button" name="submit2" value="Test colour 2" /><br/>
+<input  onclick="draw('test-02.jpg');" type="button" name="submit3" value="Test colour 3" /><br/>
+<input  onclick="draw('test-03.jpg');" type="button" name="submit4" value="Test colour 4" /><br/>
+<input  onclick="draw('test-04.jpg');" type="button" name="submit5" value="Test colour 5" /><br/>
+
+
+<button onclick="capturePhoto();">Capture Photo</button><br/>
+
+
+<label for="width">Width:</label>
+<input type="text" name="width" id="width" value="" /><br/>
+<label for="height">Height: </label>
+<input type="text" name="height" id="height" value="" /> <br/>
+
+<label for="red">red:</label>
+<input type="text" name="red" id="red" value="" /><br/>
+<label for="green">green:</label>
+<input type="text" name="green" id="green" value="" /><br/>
+<label for="blue">blue:</label>
+<input type="text" name="blue" id="blue" value="" /><br/>
+
+
+<label for="bgcolor">bgcolor:</label>
+<input type="text" name="bgcolor" id="bgcolor" value="" /><br/>
+
+<label for="hslint">HSL long integer:</label>
+<input type="text" name="hslint" id="hslint" value="" /><br/>
+
+<label for="sat">Saturation:</label>
+<input type="text" name="sat" id="sat" value="" /><br/>
+
+<label for="lum">brightness:</label>
+<input type="text" name="lum" id="lum" value="" /><br/>
+
+
+<label for="col">Colour:</label><br/>
+<textarea name="col" id="col" cols="40" rows="3"></textarea>
+
+<label for="js">Generated Javascript:</label><br/>
+<textarea name="js" id="js" cols="40" rows="3"></textarea>
+</form>
+</body>
 </html>
