@@ -1,6 +1,5 @@
 package com.yell.labs.eye;
 
-import android.app.Activity;
 import org.apache.cordova.*;
 import android.os.Bundle;
 
