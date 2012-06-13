@@ -1,0 +1,201 @@
+<!Doctype html>
+<html>
+<head>
+  <title>Talk</title>
+  <script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
+  
+  
+  <script type="text/javascript">
+  
+	function onBodyLoad()
+	{		
+		document.addEventListener("deviceready", onDeviceReady, false);
+	}
+	function onDeviceReady()
+	{
+		// anything here will be run once Phonegap is ready
+        navigator.notification.alert("Cordova is working");
+
+        
+	}  
+  
+    
+</script>
+  
+  
+</head>
+<body onLoad="onBodyLoad(); talk.memory(1);">
+<h1>talk</h1>
+<div id="speak" role="log" aria-live="assertive">
+</div>
+
+<form action="javascript:talk.speakIt();" role="main">
+<div id="typing">
+<label for="mytext">Input: </label>
+<input type="text" id="mytext" name="text" value=""  form />
+<input type="submit" value="speak"/>
+<input type="reset" value="clear" />
+</div>
+
+<fieldset id="quicktext">
+<legend>Quick keys</legend>: 
+</fieldset>
+<hr/>
+
+<fieldset id="memories">
+<legend>Memory</legend>:
+<input type="button" id="m1" value="m1" onclick="talk.memory(1);" />
+<input type="button" id="m2" value="m2" onclick="talk.memory(2);" />
+<input type="button" id="m3" value="m3" onclick="talk.memory(3);" />
+<input type="button" id="m4" value="m4" onclick="talk.memory(4);" />
+</fieldset>
+</form>
+<script type="text/javascript">
+var talk=(function() {
+var quickList=new Array(),
+memUsed="",
+data=new Array(),
+
+scrollDown=function() {
+window.scrollTo(0,window.innerHeight);
+},
+
+setFocus=function() {
+var mytextNode=document.getElementById("mytext");
+mytextNode.
+tabindex=1;mytextNode.focus();
+},
+
+clearInput=function() {
+scrollDown();
+var mytextNode=document.getElementById("mytext");
+mytextNode.value='';
+},
+
+speakIt=function() {
+var speakNode=document.getElementById("speak");
+var mytextNode=document.getElementById("mytext");
+// checking on quick text
+var quicktext=mytextNode.value.match(/^(\S+)=(.*)$/);
+if(!quicktext){
+var newtextNode=document.createElement("p");
+var inputText=replaceQuickText(mytextNode.value);
+newtextNode.onclick=function(){appendQuicktext(inputText);};
+var newtext=document.createTextNode(inputText);
+newtextNode.appendChild(newtext);
+speakNode.appendChild(newtextNode);
+} else {
+if (quicktext.length==3) {
+addQuickButton(quicktext[1],quicktext[2]);
+saveQuickList();
+
+}
+}
+clearInput();
+setFocus();
+},
+
+addQuickButton=function(shortText,longText) {
+var quickId="quick_"+shortText;
+var quicktextNode=document.getElementById("quicktext");
+var mytextNode=document.getElementById("mytext");
+var oldNode=document.getElementById(quickId);
+// checking if new definition to set
+if (longText!='') {
+var newtextNode;
+if (oldNode) {
+newtextNode=oldNode;
+} else {
+newtextNode=document.createElement("input");
+newtextNode.type="button";
+newtextNode.id=quickId;
+newtextNode.value=shortText;
+quicktextNode.appendChild(newtextNode);
+}
+quickList[shortText]=longText;
+newtextNode.title=longText;
+// adding onClick event
+newtextNode.onclick=function(){appendQuicktext(longText);};
+} else {
+// only removing quick button
+if (oldNode) {
+quicktextNode.removeChild(oldNode);
+}
+if (quickList[shortText]) {
+ delete quickList[shortText]; 
+}
+}
+},
+
+saveQuickList=function() {
+var temp="";
+for (var q in quickList) {
+if (temp!='') { temp+="\n"; }
+temp+=q+"="+quickList[q];
+}
+document.cookie=memUsed+"="+escape(temp);
+},
+
+loadQuickList=function() {
+var quicktextNode=document.getElementById("quicktext");
+if (document.cookie) {
+var temp= document.cookie.split(';');
+for (var i=0; i<temp.length; i++) {
+var d=temp[i].split('=');
+  data[d[0].replace(/\s/g,'')]=unescape(d[1]);
+}
+clearQuickText();
+quickList=new Array();
+if (data[memUsed]) {
+var ql=data[memUsed].split("\n");
+for (var i=0; i<ql.length; i++) {
+var quicktext=ql[i].match(/^(\S+)=(.*)$/);
+if (quicktext.length==3) {
+addQuickButton(quicktext[1],quicktext[2]);
+}
+}
+}
+}
+clearInput();
+},
+
+
+clearQuickText=function(){
+var quicktextNode=document.getElementById("quicktext");
+while (quicktextNode.hasChildNodes()) {
+quicktextNode.removeChild(quicktextNode.lastChild);
+}
+// window.alert("removed QuickText buttons");
+},
+
+memory=function(num) {
+if (memUsed!='') {
+saveQuickList();
+}
+memUsed="m"+num;
+loadQuickList();
+//  window.alert("Using memory "+memUsed+"\n"+document.cookie);
+}
+
+replaceQuickText=function(str) {
+var temp=str;
+for (var q in quickList) {
+var reg=new RegExp("\\b"+q+"\\b", "g");
+temp=temp.replace(reg,quickList[q]);
+}
+return temp;
+},
+
+
+
+appendQuicktext=function(longText) {
+var mytextNode=document.getElementById("mytext");
+mytextNode.value=mytextNode.value+longText;
+setFocus();
+};
+
+return {speakIt:speakIt,memory:memory};
+}());
+</script>
+</body>
+</html>

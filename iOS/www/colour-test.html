@@ -1,0 +1,175 @@
+<html>
+<head>
+<title>Colour tester</title>
+
+<script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
+
+<script language="javascript">
+
+
+
+
+
+function rgb2hsl(r, g, b){
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+ 
+    if(max == min){
+        h = s = 0; // achromatic
+    }else{
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+ 
+    return [h, s, l];
+}
+ 
+function rgb2html(red, green, blue) {
+    var decColor = blue | (green << 8) | (red << 16);
+    return '#'+decColor.toString(16);
+}
+
+function hsl2int(h, s, l) {
+    var decColor = Math.floor(l*127) | ( Math.floor(s*127) << 7) | ( Math.floor(h*1023) << 14);
+    return decColor;
+}
+
+
+
+function draw(url) {
+
+        navigator.notification.alert("drawing " + url);
+
+    var orig = document.getElementById('canvas');
+    var  ctx = orig.getContext('2d');
+
+			var copy = document.createElement("canvas");
+			copy.width = orig.width;
+			copy.height = orig.height;
+
+			var copyCtx = copy.getContext("2d");
+
+    var img = new Image();
+    
+    img.onload = function(){
+    var x=orig.width;
+    ctx.clearRect(0,0,orig.width,orig.height);
+          ctx.drawImage(img, 0,0, orig.width, orig.height);
+
+    while ( x>1) {
+        x=x>>1;
+
+        copy.width=x;
+        copy.height=x;
+        // copyCtx.clearRect(0,0,x,x);
+          copyCtx.drawImage(orig, 0,0, orig.width, orig.height, 0, 0, x, x);
+
+        // ctx.clearRect(0,0,orig.width,orig.height);
+          ctx.drawImage(copy, 0,0, x,x, 0, 0, orig.width, orig.height);
+    }
+
+    var imgd = copyCtx.getImageData(0, 0, 1, 1); 
+    var pix = imgd.data; 
+    var colour = rgb2html(pix[0], pix[1], pix[2]);
+    document.bgColor = colour;
+    var hsl=rgb2hsl(pix[0], pix[1], pix[2]);
+
+
+    document.getElementById('width').value=img.width;
+    document.getElementById('height').value=img.height;
+    document.getElementById('red').value=pix[0];
+    document.getElementById('green').value=pix[1];
+    document.getElementById('blue').value=pix[2];
+    document.getElementById('bgcolor').value=colour;
+    document.getElementById('hslint').value= hsl2int(hsl[0],hsl[1],hsl[2]);
+
+    ctx.clearRect(0,0,orig.width,orig.height);
+          ctx.drawImage(img, 0,0, orig.width, orig.height);
+
+    }
+    img.src = url;
+
+}
+
+
+
+
+
+
+	function onBodyLoad()
+	{		
+		document.addEventListener("deviceready", onDeviceReady, false);
+	}
+	function onDeviceReady()
+	{
+		// anything here will be run once Phonegap is ready
+        // navigator.notification.alert("Cordova is working");
+        
+        
+	}
+
+
+    function capturePhoto() {
+        alert("1");
+        navigator.camera.getPicture(onSuccess, onFail, { quality: 5,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType:Camera.PictureSourceType.CAMERA })
+        alert("2");
+    }
+    
+    function onSuccess(imageURI) {
+        draw(imageURI);
+        alert('win');
+    }
+
+    function onFail(message) {
+        alert('fail');
+    }
+
+
+
+
+</script>
+</head>
+<body onload="onBodyLoad()">
+<canvas id="canvas" width="128" height="128"></canvas>
+
+<h1>Colour Tester</h1>
+
+<form id="image">
+
+<input  onclick="draw('blau.jpg');" type="button" name="submit1" value="Test colour 1" /><br/>
+<input  onclick="draw('rot.jpg');" type="button" name="submit2" value="Test colour 2" /><br/>
+<button onclick="capturePhoto();">Capture Photo</button><br/>
+
+<label for="width">Width:</label>
+<input type="text" name="width" id="width" value="" /><br/>
+<label for="height">Height: </label>
+<input type="text" name="height" id="height" value="" /> <br/>
+
+<label for="red">red:</label>
+<input type="text" name="red" id="red" value="" /><br/>
+<label for="green">green:</label>
+<input type="text" name="green" id="green" value="" /><br/>
+<label for="blue">blue:</label>
+<input type="text" name="blue" id="blue" value="" /><br/>
+
+
+<label for="bgcolor">bgcolor:</label>
+<input type="text" name="bgcolor" id="bgcolor" value="" /><br/>
+
+<label for="hslint">HSL long integer:</label>
+<input type="text" name="hslint" id="hslint" value="" /><br/>
+
+
+
+</form>
+</body>
+</html>
