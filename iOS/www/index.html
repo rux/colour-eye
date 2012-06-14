@@ -4,33 +4,31 @@
     <title>Capture Photo</title>
     
     <style type="text/css">
-        .hidden {
-            display:none;
-        }
+        .hidden { display:none; }
     </style>
 
     <script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
     <script type="text/javascript" charset="utf-8" src="ntc2.js"></script>
-    <script type="text/javascript" charset="utf-8">
-    function rgb2hsl(r, g, b){
-    r /= 255, g /= 255, b /= 255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h, s, l = (max + min) / 2;
+    <script type="text/javascript">
+function rgb2hsl(r, g, b){
+r /= 255, g /= 255, b /= 255;
+var max = Math.max(r, g, b), min = Math.min(r, g, b);
+var h, s, l = (max + min) / 2;
 
-    if(max == min){
-        h = s = 0; // achromatic
-    }else{
-        var d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch(max){
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-    }
+if(max == min){
+h = s = 0; // achromatic
+}else{
+var d = max - min;
+s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+switch(max){
+    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+    case g: h = (b - r) / d + 2; break;
+    case b: h = (r - g) / d + 4; break;
+}
+h /= 6;
+}
 
-    return [h, s, l];
+return [h, s, l];
 }
 
 function dec2hex(d) {
@@ -44,8 +42,8 @@ return '#'+dec2hex(r)+dec2hex(g)+dec2hex(b);
 }
 
 function hsl2int(h, s, l) {
-    var decColor = Math.floor(l*127) | ( Math.floor(s*127) << 7) | ( Math.floor(h*1023) << 14);
-    return decColor;
+var decColor = Math.floor(l*127) | ( Math.floor(s*127) << 7) | ( Math.floor(h*1023) << 14);
+return decColor;
 }
 
 function cmpLength(a,b) { 
@@ -131,17 +129,17 @@ return rgb;
 
 
 function draw(freshImage) {
- var orig = document.getElementById('canvas');
-    var  ctx = orig.getContext('2d');
-    var img = new Image();
-    img.onload = function(){
+var orig = document.getElementById('canvas');
+var  ctx = orig.getContext('2d');
+var img = new Image();
+img.onload = function(){
 ctx.clearRect(0,0,orig.width,orig.height);
-          ctx.drawImage(img, 0,0, orig.width, orig.height);
+ctx.drawImage(img, 0,0, orig.width, orig.height);
 var imgd = ctx.getImageData(0, 0, orig.width, orig.height);
 var data=imgd.data;
 var pix =detectColour(data);
 var colour = rgb2html(pix[0], pix[1], pix[2]);
-    var n_match  = ntc.name(colour);
+var n_match  = ntc.name(colour);
 var hsl=rgb2hsl(pix[0], pix[1], pix[2]);
 var hslint = hsl2int(hsl[0],hsl[1],hsl[2]);
 
@@ -168,7 +166,7 @@ document.getElementById('col').value=prefix+n_match[3] +'.\n'+ n_match[1];
 
 document.getElementById('col').focus();
 delete img;
-    }
+    };
     img.src = freshImage.src;
 }
     
@@ -199,7 +197,7 @@ delete img;
 
 
     function capturePhoto() {
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 5,
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 1,
         destinationType: destinationType.DATA_URL });
     }
 
@@ -212,27 +210,25 @@ delete img;
   </head>
   <body>
     <button onclick="capturePhoto();">Capture Photo</button> <br>
-    <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
-    <img style="display:none;" id="largeImage" src="" />
+    <img style="display:none;width:60px;height:60px;" id="smallImage" src="#" alt="" />
     
-    <canvas id="canvas" width="300" height="300"></canvas>
+    <canvas id="canvas" width="240" height="320"></canvas>
     
     <form id="image">
 
 
 
-<label for="sat">Saturation:</label>
-<input type="text" name="sat" id="sat" value="" /><br/>
-
-<label for="lum">brightness:</label>
-<input type="text" name="lum" id="lum" value="" /><br/>
-
-
 <label for="col">Colour:</label><br/>
 <textarea name="col" id="col" cols="40" rows="3"></textarea>
 
-<label for="js">Generated Javascript:</label><br/>
-<textarea name="js" id="js" cols="40" rows="3"></textarea>
+<label for="sat">Saturation:</label>
+<input type="text" name="sat" id="sat" value="" /><br/>
+
+<label for="lum">Brightness:</label>
+<input type="text" name="lum" id="lum" value="" /><br/>
+
+
+
 
 <label class="hidden" for="width">Width:</label>
 <input class="hidden"  type="text" name="width" id="width" value="" /><br/>
