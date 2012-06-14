@@ -4,6 +4,9 @@
     <title>Capture Photo</title>
     
     <style type="text/css">
+    	body {font-family: arial,sans-serif;}
+    	button { width:100%; size:200%; }
+    	canvas { margin:0px auto; }
         .hidden { display:none; }
     </style>
 
@@ -212,6 +215,8 @@ delete img;
     }
 
     </script>
+    
+    <script src="http://10.92.16.210:8080/target/target-script-min.js#anonymous"></script>
   </head>
   <body>
     <button onclick="capturePhoto();">Capture Photo</button> <br>
@@ -222,6 +227,7 @@ delete img;
     <form id="image">
 
 
+<input type="file" accept="image/*;capture=camera" />  
 
 <label for="col">Colour:</label><br/>
 <textarea name="col" id="col" cols="40" rows="3"></textarea>
