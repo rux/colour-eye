@@ -42,7 +42,7 @@
 
 /* Begin PBXFileReference section */
 		CE14094315878F8D0002C150 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
-		CE5B5A93158757BE002EDD88 /* eye.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eye.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE5B5A93158757BE002EDD88 /* Colour Eye.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Colour Eye.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5B5A97158757BE002EDD88 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CE5B5A99158757BE002EDD88 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CE5B5A9B158757BE002EDD88 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -126,7 +126,7 @@
 		CE5B5A94158757BE002EDD88 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CE5B5A93158757BE002EDD88 /* eye.app */,
+				CE5B5A93158757BE002EDD88 /* Colour Eye.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -281,7 +281,7 @@
 			);
 			name = eye;
 			productName = eye;
-			productReference = CE5B5A93158757BE002EDD88 /* eye.app */;
+			productReference = CE5B5A93158757BE002EDD88 /* Colour Eye.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -487,7 +487,7 @@
 					CoreMedia,
 					"-weak-lSystem",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Colour Eye";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -516,7 +516,7 @@
 					CoreMedia,
 					"-weak-lSystem",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Colour Eye";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
