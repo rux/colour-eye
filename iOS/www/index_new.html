@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Capture Photo</title>
-    
-    <style type="text/css">
-    	body {font-family: arial,sans-serif;}
-    	button { width:100%; size:200%; }
-    	canvas { margin:0px auto; }
-        .hidden { display:none; }
-    </style>
+<head>
+<title>Colour tester</title>
+<script language="javascript" src="ntc2.js"></script>
 
-    <script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
-    <script src="http://10.92.16.171:8080/target/target-script-min.js#anonymous"></script>
-    <script type="text/javascript" charset="utf-8" src="ntc2.js"></script>
-    <script type="text/javascript">
+<script language="javascript">
+
 function rgb2hsl(r, g, b){
     r /= 255, g /= 255, b /= 255;
     var max = Math.max(r, g, b), min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2;
-    
+ 
     if(max == min){
         h = s = 0; // achromatic
     }else{
@@ -31,10 +23,10 @@ function rgb2hsl(r, g, b){
         }
         h /= 6;
     }
-    
+ 
     return [h, s, l];
 }
-
+ 
 function dec2hex(d) {
 var n1 = d&15;
 var n2 = (d&240)>>4;
@@ -160,7 +152,7 @@ return rgb;
 }
 
 
-function draw(freshimage) {
+function draw(url) {
  var orig = document.getElementById('canvas');
     var  ctx = orig.getContext('2d');
     var img = new Image();
@@ -215,109 +207,53 @@ document.getElementById('col').value+="\nColour "+(i+1)+":\n"+prefix+n_match[3] 
   document.getElementById('col').focus();
 delete img;
     }
-    img.src = freshimage.src;
+    img.src = url;
 }
+</script>
+</head>
+<body>
+<canvas id="canvas" width="100" height="100"></canvas>
+<h1>Colour Tester</h1>
+
+<form id="image">
+
+<input  onclick="draw('mobile-01.jpg');" type="button" name="submit0" value="Test colour 0" /><br/>
+<input  onclick="draw('test-00.jpg');" type="button" name="submit1" value="Test colour 1" /><br/>
+<input  onclick="draw('test-01.jpg');" type="button" name="submit2" value="Test colour 2" /><br/>
+<input  onclick="draw('test-02.jpg');" type="button" name="submit3" value="Test colour 3" /><br/>
+<input  onclick="draw('test-03.jpg');" type="button" name="submit4" value="Test colour 4" /><br/>
+<input  onclick="draw('test-04.jpg');" type="button" name="submit5" value="Test colour 5" /><br/>
 
 
+<label for="width">Width:</label>
+<input type="text" name="width" id="width" value="" /><br/>
+<label for="height">Height: </label>
+<input type="text" name="height" id="height" value="" /> <br/>
+
+<label for="red">red:</label>
+<input type="text" name="red" id="red" value="" /><br/>
+<label for="green">green:</label>
+<input type="text" name="green" id="green" value="" /><br/>
+<label for="blue">blue:</label>
+<input type="text" name="blue" id="blue" value="" /><br/>
 
 
-    
-    
-    
-    
-    
-    
-    
+<label for="bgcolor">bgcolor:</label>
+<input type="text" name="bgcolor" id="bgcolor" value="" /><br/>
 
-    var pictureSource;   // picture source
-    var destinationType; // sets the format of returned value 
+<label for="hslint">HSL long integer:</label>
+<input type="text" name="hslint" id="hslint" value="" /><br/>
 
-    document.addEventListener("deviceready",onDeviceReady,false);
+<label for="sat">Saturation:</label>
+<input type="text" name="sat" id="sat" value="" /><br/>
 
-    function onDeviceReady() {
-        pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
-    }
-
-    function onPhotoDataSuccess(imageData) {
-    	//	navigator.notification.alert("win");
-      var smallImage = document.getElementById('smallImage');
-      // smallImage.style.display = 'block';
-      smallImage.src = "data:image/jpeg;base64," + imageData;
-      draw(smallImage);
-    }
-
-
-    function capturePhoto() {
-        if (navigator.camera) {
-            navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 25, destinationType: destinationType.DATA_URL });
-        } else {
-            console.log("phonegap camera not available");
-        }
-    }
-
-
-    function onFail(message) {
-    	//navigator.notification.alert("fail");
-      alert('Failed because: ' + message);
-    }
-
-    </script>
-    
-  </head>
-  <body>
-    <button onclick="capturePhoto();">Capture Photo</button> <br>
-    <img style="display:anone;width:12px;height:16px;" id="smallImage" src="#" alt="" />
-    
-    <canvas id="canvas" width="12" height="16"></canvas>
-    
-    <img class="" src="test-00.jpg" id="test-00" />
-    
-    <form id="image">
-
-
-
-<input  onclick="draw(document.getElementById('test-00'));" type="button" name="submit1" value="Test colour 1" /><br/>
+<label for="lum">brightness:</label>
+<input type="text" name="lum" id="lum" value="" /><br/>
 
 
 <label for="col">Colour:</label><br/>
 <textarea name="col" id="col" cols="40" rows="3"></textarea>
 
-<label for="bgcolor">bgcolor:</label>
-<input type="text" name="bgcolor" id="bgcolor" value="" /><br/>
-
-<label for="sat">Saturation:</label>
-<input type="text" name="sat" id="sat" value="" /><br/>
-
-<label for="lum">Brightness:</label>
-<input type="text" name="lum" id="lum" value="" /><br/>
-
-
-
-
-<label class="hidden" for="width">Width:</label>
-<input class="hidden"  type="text" name="width" id="width" value="" /><br/>
-<label class="hidden"  for="height">Height: </label>
-<input class="hidden"  type="text" name="height" id="height" value="" /> <br/>
-
-<label class="hidden"  for="red">red:</label>
-<input class="hidden"  type="text" name="red" id="red" value="" /><br/>
-<label class="hidden"  for="green">green:</label>
-<input class="hidden"  type="text" name="green" id="green" value="" /><br/>
-<label class="hidden"  for="blue">blue:</label>
-<input class="hidden"  type="text" name="blue" id="blue" value="" /><br/>
-
-
-<label class="hidden"  for="bgcolor">bgcolor:</label>
-<input class="hidden"  type="text" name="bgcolor" id="bgcolor" value="" /><br/>
-
-<label class="hidden"  for="hslint">HSL long integer:</label>
-<input class="hidden"  type="text" name="hslint" id="hslint" value="" /><br/>
-
-
-
-
 </form>
-    
-  </body>
+</body>
 </html>

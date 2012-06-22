@@ -36,6 +36,7 @@ var ntc = {
 
   init: function() {
     var color, rgb, hsl;
+
     for(var i = 0; i < ntc.names.length; i++)
     {
       color = "#" + ntc.names[i][0];
@@ -121,9 +122,21 @@ var ntc = {
     }
     return "#000000";
   },
-  
+
+  shade: [
+"Red",
+"Orange",
+"Yellow",
+"Green",
+"Blue",
+"Violet",
+"Brown",
+"Black",
+"Grey",
+"White"
+],
   shades: [
-["FF0000", "Red"],
+ ["FF0000", "Red"],
 ["FFA500", "Orange"],
 ["FFFF00", "Yellow"],
 ["008000", "Green"],
@@ -134,6 +147,8 @@ var ntc = {
 ["808080", "Grey"],
 ["FFFFFF", "White"]
 ],
+
+
 
   names: [
 ["35312C", "Acadia", "Brown"],
