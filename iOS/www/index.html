@@ -11,14 +11,18 @@
     </style>
 
     <script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
-    <script src="http://10.92.16.171:8080/target/target-script-min.js#anonymous"></script>
+   <!--  <script src="http://10.92.16.171:8080/target/target-script-min.js#anonymous"></script> -->
     <script type="text/javascript" charset="utf-8" src="ntc2.js"></script>
     <script type="text/javascript">
+var coldata;
+var maxcol=ntc.shade.length;
+
+
+
 function rgb2hsl(r, g, b){
     r /= 255, g /= 255, b /= 255;
     var max = Math.max(r, g, b), min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2;
-    
     if(max == min){
         h = s = 0; // achromatic
     }else{
@@ -31,10 +35,8 @@ function rgb2hsl(r, g, b){
         }
         h /= 6;
     }
-    
     return [h, s, l];
 }
-
 function dec2hex(d) {
 var n1 = d&15;
 var n2 = (d&240)>>4;
@@ -54,153 +56,91 @@ function cmpLength(a,b) {
 return (b.length-a.length); }
 
 
+function calcColours(data) {
+var i;
+delete(coldata);
+coldata=new Array();
+for (i=0; i<maxcol; i++) { coldata[i]=new Array(); }
+for (i=0; i<data.length; i+=4) {
+var colour = rgb2html(data[i], data[i+1], data[i+2]);
+var hsl=rgb2hsl(data[i], data[i+1], data[i+2]);
+      var n_match  = ntc.name(colour);
+var d={"pixel":i, "colour":n_match, "hsl": hsl};
+coldata[ntc.shade.indexOf(n_match[3])].push(d);
+}
+coldata.sort(cmpLength);
+}
+
 function detectColour(place, data) {
-var maxcol=256;
 var maxhue=256;
 var maxsat=256;
 var maxlum=256;
 var i,j,r,g,b;
-var coldata=new Array();
+
+var colplace=coldata[place];
+
+
 var hsldata= new Array();
 var sldata=  new Array();
 var ldata= new Array();
-for (i=0; i<maxcol; i++) { coldata[i]=new Array(); }
+
 for (i=0; i<maxhue; i++) { hsldata[i]=new Array(); }
 for (i=0; i<maxsat; i++) { sldata[i]=new Array(); }
 for (i=0; i<maxlum; i++) { ldata[i]=new Array(); }
 
-for (i=0; i<data.length; i+=4) {
-var colour = rgb2html(data[i], data[i+1], data[i+2]);
-    var n_match  = ntc.name(colour);
-coldata[ntc.shade.indexOf(n_match[3])].push(i);
-}
-coldata.sort(cmpLength);
-var colplace=coldata[place];
 
 for (i=0; i<colplace.length; i++) {
 j=colplace[i];
-var hsl=rgb2hsl(data[j], data[j+1], data[j+2]);
+var hsl=j.hsl;
 var hue=Math.floor(hsl[0]*(maxhue-1));
-  hsldata[hue].push(j);
+  hsldata[hue].push(i);
 }
 hsldata.sort(cmpLength);
 
 for (i=0; i<hsldata[0].length; i++) {
-j=hsldata[0][i];
-var hsl=rgb2hsl(data[j], data[j+1], data[j+2]);
+j=colplace[hsldata[0][i]];
+var hsl=j.hsl;
 var sat=Math.floor(hsl[1]*(maxsat-1));
-sldata[sat].push(j);
+sldata[sat].push(i);
 }
 sldata.sort(cmpLength);
 
 for (i=0; i<sldata[0].length; i++) {
-var j=sldata[0][i];
-var hsl=rgb2hsl(data[j], data[j+1], data[j+2]);
+var j=colplace[sldata[0][i]];
+var hsl=j.hsl;
 var lum=Math.floor(hsl[2]*(maxlum-1));
-ldata[lum].push(j);
+ldata[lum].push(i);
 }
 ldata.sort(cmpLength);
 
-j=ldata[0][0];
-
-r=data[j];
-g=data[j+1];
-b=data[j+2];
-
-// painting all the similar colours with the calculated one...
-for (i=0; i<colplace.length; i++) {
-j=colplace[i];
-data[j]=r;
-data[j+1]=g;
-data[j+2]=b;
+var result=colplace[ldata[0][0]];
+return result;
 }
-
-var rgb=[r,g,b];
-return rgb;
-}
-
-function detectColour2(data) {
-var i;
-var hsldata= new Array();
-var sldata=  new Array();
-var ldata= new Array();
-
-for (i=0; i<256; i++) { 
-hsldata[i]=new Array();
-sldata[i]=new Array();
-ldata[i]=new Array();
-}
-
-for (i=0; i<data.length; i+=4) {
-var hsl=rgb2hsl(data[i], data[i+1], data[i+2]);
-var lum=Math.floor(hsl[2]*255);
-hsldata[lum].push(i);
-}
-hsldata.sort(cmpLength);
-
-for (i=0; i<hsldata[0].length; i++) {
-var j=hsldata[0][i];
-var hsl=rgb2hsl(data[j], data[j+1], data[j+2]);
-var hue=Math.floor(hsl[0]*255);
-sldata[hue].push(j);
-}
-sldata.sort(cmpLength);
-
-for (i=0; i<sldata[0].length; i++) {
-var j=sldata[0][i];
-var hsl=rgb2hsl(data[j], data[j+1], data[j+2]);
-var sat=Math.floor(hsl[1]*255);
-ldata[sat].push(j);
-}
-ldata.sort(cmpLength);
-
-var j=ldata[0][0];
-var rgb=[ data[j], data[j+1], data[j+2] ];
-return rgb;
-}
-
 
 function draw(freshimage) {
  var orig = document.getElementById('canvas');
     var  ctx = orig.getContext('2d');
     var img = new Image();
+
     img.onload = function(){
 ctx.clearRect(0,0,orig.width,orig.height);
           ctx.drawImage(img, 0,0, orig.width, orig.height);
+
+var pix;
+var colour;
+    var n_match;
+var hsl;
+
 var imgd = ctx.getImageData(0, 0, orig.width, orig.height);
 var data=imgd.data;
-var pix =detectColour(0, data);
-var colour = rgb2html(pix[0], pix[1], pix[2]);
-    var n_match  = ntc.name(colour);
-var hsl=rgb2hsl(pix[0], pix[1], pix[2]);
-var hslint = hsl2int(hsl[0],hsl[1],hsl[2]);
 
-document.bgColor = colour;
-document.getElementById('width').value=img.width;
-document.getElementById('height').value=img.height;
-document.getElementById('red').value=pix[0];
-document.getElementById('green').value=pix[1];
-document.getElementById('blue').value=pix[2];
-document.getElementById('bgcolor').value=colour;
-document.getElementById('hslint').value= hslint;
-var prefix = "";
-
-var sat ='medium';
-if (hsl[1]<0.3) {sat='weak'; prefix=sat+' ';}
-else if (hsl[1]>0.7) {sat='strong';prefix=sat+' ';}
-document.getElementById('sat').value=sat;
-
-var lum ='medium';
-if (hsl[2]<0.3) {lum='dark';prefix=prefix+lum+' ';}
-else if (hsl[2]>0.7) {lum='light';prefix=prefix+lum+' ';}
-document.getElementById('lum').value=lum;
-document.getElementById('col').value=prefix+n_match[3] +'.\n'+ n_match[1];
-
-  for (i=1; i<4; i++) {
+calcColours(data);
+  for (i=0; i<maxcol; i++) {
 pix =detectColour(i, data);
-colour = rgb2html(pix[0], pix[1], pix[2]);
-n_match  = ntc.name(colour);
-hsl=rgb2hsl(pix[0], pix[1], pix[2]);
+var perc=coldata[i].length/(data.length/400);
+colour = rgb2html(data[pix.pixel], data[pix.pixel+1], data[pix.pixel+2]);
+n_match  = pix.colour;
+hsl=pix.hsl;
 prefix = "";
 sat ='medium';
 if (hsl[1]<0.3) {sat='weak'; prefix=sat+' ';}
@@ -208,10 +148,23 @@ else if (hsl[1]>0.7) {sat='strong';prefix=sat+' ';}
 lum ='medium';
 if (hsl[2]<0.3) {lum='dark';prefix=prefix+lum+' ';}
 else if (hsl[2]>0.7) {lum='light';prefix=prefix+lum+' ';}
-document.getElementById('col').value+="\nColour "+(i+1)+":\n"+prefix+n_match[3] +'.\n'+ n_match[1];
-  document.getElementById('col').focus();
+
+if (i==0) {
+document.getElementById('col').value="";
+document.bgColor = colour;
+document.getElementById('width').value=img.width;
+document.getElementById('height').value=img.height;
+document.getElementById('red').value=data[pix.pixel];
+document.getElementById('green').value=data[pix.pixel+1];
+document.getElementById('blue').value=data[pix.pixel+2];
+document.getElementById('bgcolor').value=colour;
+document.getElementById('sat').value=sat;
+document.getElementById('lum').value=lum;
 }
 
+document.getElementById('col').value+="Colour "+(i+1)+": "+perc+"%:\n"+prefix+n_match[3] +'.\n'+ n_match[1]+"\n";
+  document.getElementById('col').focus();
+}
   document.getElementById('col').focus();
 delete img;
     }
@@ -250,7 +203,7 @@ delete img;
 
     function capturePhoto() {
         if (navigator.camera) {
-            navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 25, destinationType: destinationType.DATA_URL });
+            navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 1, destinationType: destinationType.DATA_URL });
         } else {
             console.log("phonegap camera not available");
         }
@@ -267,11 +220,11 @@ delete img;
   </head>
   <body>
     <button onclick="capturePhoto();">Capture Photo</button> <br>
-    <img style="display:anone;width:12px;height:16px;" id="smallImage" src="#" alt="" />
+    <img style="display:anone;width:24px;height:32px;" id="smallImage" src="#" alt="" />
     
-    <canvas id="canvas" width="12" height="16"></canvas>
+    <canvas id="canvas" width="16" height="24"></canvas>
     
-    <img class="" src="test-00.jpg" id="test-00" />
+    <img class="hidden" src="test-00.jpg" id="test-00" />
     
     <form id="image">
 
@@ -281,7 +234,7 @@ delete img;
 
 
 <label for="col">Colour:</label><br/>
-<textarea name="col" id="col" cols="40" rows="3"></textarea>
+<textarea name="col" id="col" cols="40" rows="10"></textarea>
 
 <label for="bgcolor">bgcolor:</label>
 <input type="text" name="bgcolor" id="bgcolor" value="" /><br/>
