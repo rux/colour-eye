@@ -12,7 +12,7 @@
 
     <script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
    <!--  <script src="http://10.92.16.171:8080/target/target-script-min.js#anonymous"></script> -->
-    <script type="text/javascript" charset="utf-8" src="ntc2.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ntc2_xkcd.js"></script>
     <script type="text/javascript">
 var coldata;
  var maxcol=ntc.shade.length;
@@ -180,7 +180,8 @@ document.getElementById('col').value="";
  document.getElementById('sat').value=sat;
  document.getElementById('lum').value=lum;
 }
-document.getElementById('col').value+="Colour "+(i+1)+": "+perc+"%:\n"+prefix+n_match[3] +'.\n'+ n_match[1]+"\n";
+ document.getElementById('col').value+=perc+"%:\n"+prefix+n_match[3] +'.  '+ n_match[1]+"\n";
+// document.getElementById('col').value+=perc+" "+prefix+n_match[3]+"\n";
  document.getElementById('col').focus();
 }
 document.getElementById('col').focus();
