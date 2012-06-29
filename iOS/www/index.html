@@ -170,6 +170,8 @@ prefix=prefix+lum+' ';
 }
 if (i==0) {
 document.getElementById('col').value="";
+
+document.getElementById('swatches').innerHTML = "";
  document.bgColor = colour;
  document.getElementById('width').value=img.width;
  document.getElementById('height').value=img.height;
@@ -180,11 +182,12 @@ document.getElementById('col').value="";
  document.getElementById('sat').value=sat;
  document.getElementById('lum').value=lum;
 }
- document.getElementById('col').value+=perc+"%:\n"+prefix+n_match[3] +'.  '+ n_match[1]+"\n";
-// document.getElementById('col').value+=perc+" "+prefix+n_match[3]+"\n";
- document.getElementById('col').focus();
+ document.getElementById('col').value+= perc+"% "+prefix + n_match[3].toLowerCase() +' - '+ n_match[1]+".\n";
+// document.getElementById('col').value+=perc+" "+prefix + n_match[3]+"\n";
+ //document.getElementById('col').focus();
+ document.getElementById('swatches').innerHTML += '<div style="width:2em; height:'+ perc/10 + 'em; background-color:'+ n_match[0] +'">&nbsp;</div>';
 }
-document.getElementById('col').focus();
+//document.getElementById('col').focus();
  delete img;
     }
     img.src = freshimage.src;
@@ -224,6 +227,7 @@ document.getElementById('col').focus();
         if (navigator.camera) {
             navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 1, destinationType: destinationType.DATA_URL });
         } else {
+            document.getElementById("captureButton").innerHTML = "Camera not found" 
             console.log("phonegap camera not available");
         }
     }
@@ -234,35 +238,53 @@ document.getElementById('col').focus();
       alert('Failed because: ' + message);
     }
 
+
+    function drawPhotoFromGallery() {
+        if (navigator.camera) {
+            navigator.camera.getPicture(gallerySuccess, onFail, {
+                destinationType: destinationType.FILE_URI,
+                sourceType: pictureSource.PHOTOLIBRARY
+            })
+        } else {
+            
+        }
+    }
+    function gallerySuccess(imageData) {
+        document.getElementById("smallImage").src = imageData
+        draw(document.getElementById('smallImage'));
+    }
+
     </script>
     
   </head>
   <body>
-    <button onclick="capturePhoto();">Capture Photo</button> <br>
-    <img style="display:anone;width:90px;height:160px;" id="smallImage" src="#" alt="" />
-    
-<canvas id="canvas" width="9" height="16"></canvas>
-    
-    <img class="hidden" src="test-00.jpg" id="test-00" />
-    
+    <button id="captureButton" style="font-size:200%;" onclick="capturePhoto();" aria-controls="col">Take Photo</button> <br>
+    <button id="galleryButton" style="font-size:200%;" onclick="drawPhotoFromGallery();" type="button" aria-controls="col"/>Camera roll</button><br/>
+  
+    <div style="width:100%;text-align:center">
+      <img style="height:120px ;" id="smallImage" src="#" alt="" />
+    </div>
+    <canvas class="hidden" id="canvas" width="9" height="16"></canvas>
+        
     <form id="image">
 
 
 
-<input  onclick="draw(document.getElementById('test-00'));" type="button" name="submit1" value="Test colour 1" /><br/>
+
+<label for="col" >Colours:</label><br/>
+
+<div id="swatches" style="border:1px solid black; float:left"></div>
+<textarea name="col" id="col" cols="40" rows="10" role="log" aria-live="assertive"></textarea>
 
 
-<label for="col">Colour:</label><br/>
-<textarea name="col" id="col" cols="40" rows="10"></textarea>
+<label class="hidden" for="bgcolor">bgcolor:</label>
+<input class="hidden" type="text" name="bgcolor" id="bgcolor" value="" /><br/>
 
-<label for="bgcolor">bgcolor:</label>
-<input type="text" name="bgcolor" id="bgcolor" value="" /><br/>
+<label class="hidden" for="sat">Saturation:</label>
+<input class="hidden" type="text" name="sat" id="sat" value="" /><br/>
 
-<label for="sat">Saturation:</label>
-<input type="text" name="sat" id="sat" value="" /><br/>
-
-<label for="lum">Brightness:</label>
-<input type="text" name="lum" id="lum" value="" /><br/>
+<label class="hidden" for="lum">Brightness:</label>
+<input class="hidden" type="text" name="lum" id="lum" value="" /><br/>
 
 
 
