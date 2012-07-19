@@ -122,6 +122,19 @@ var ntc = {
     }
     return "#000000";
   },
+  
+  
+  saturation: [
+    "Strong",
+    "Medium",
+    "Weak"
+  ],
+  
+  luminance: [
+    "Light",
+    "Medium",
+    "Dark"
+  ],
 
   shade: [
 "Red",

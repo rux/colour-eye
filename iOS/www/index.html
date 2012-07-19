@@ -13,7 +13,20 @@
     <script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
    <!--  <script src="http://10.92.16.171:8080/target/target-script-min.js#anonymous"></script> -->
     <script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
+    
+    
+    <!-- i18n -->
+    <script type="text/javascript" charset="utf-8" src="ntc2_fr.js"></script>
+    <script type="text/javascript"> ntc.init() </script>
+    
+    <!-- end i18n -->
+    
     <script type="text/javascript">
+    
+  
+    
+    
+    
 var coldata;
  var maxcol=ntc.shade.length;
  function rgb2hsl(r, g, b){
@@ -152,20 +165,20 @@ pix =detectColour(i, data);
  n_match = pix.colour;
  hsl=pix.hsl;
  prefix = "";
- sat ='medium';
+ sat = ntc.saturation[1];
  if (hsl[1]<0.3) {
-sat='weak';
+sat=ntc.saturation[2];
  prefix=sat+' ';
 } else if (hsl[1]>0.7) {
-sat='strong';
+sat=ntc.saturation[0];
 prefix=sat+' ';
 }
-lum ='medium';
+lum = ntc.luminance[1];
  if (hsl[2]<0.3) {
-lum='dark';
+lum= ntc.luminance[2];
 prefix=prefix+lum+' ';
 } else if (hsl[2]>0.7) {
-lum='light';
+lum= ntc.luminance[0];
 prefix=prefix+lum+' ';
 }
 if (i==0) {
