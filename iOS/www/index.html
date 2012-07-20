@@ -11,15 +11,11 @@
     </style>
 
     <script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
-   <!--  <script src="http://10.92.16.171:8080/target/target-script-min.js#anonymous"></script> -->
+   <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
     <script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
     
     
-    <!-- i18n -->
-    <script type="text/javascript" charset="utf-8" src="ntc2_fr.js"></script>
-    <script type="text/javascript"> ntc.init() </script>
-    
-    <!-- end i18n -->
+
     
     <script type="text/javascript">
     
@@ -270,12 +266,12 @@ document.getElementById('swatches').innerHTML = "";
     </script>
     
   </head>
-  <body>
+  <body id="body">
     <button id="captureButton" style="font-size:200%;" onclick="capturePhoto();" aria-controls="col">Take Photo</button> <br>
     <button id="galleryButton" style="font-size:200%;" onclick="drawPhotoFromGallery();" type="button" aria-controls="col"/>Camera roll</button><br/>
   
     <div style="width:100%;text-align:center">
-      <img style="height:120px ;" id="smallImage" src="#" alt="" />
+      <img style="height:120px ;" id="smallImage" src="" alt="" />
     </div>
     <canvas class="hidden" id="canvas" width="9" height="16"></canvas>
         
@@ -325,6 +321,42 @@ document.getElementById('swatches').innerHTML = "";
 
 
 </form>
+    
+        <!-- i18n -->
+    
+    <script type="text/javascript">
+        var languageCode = navigator.language.substr(0,2);
+        
+        
+        if (languageCode == "en") {
+          document.getElementById("col").innerHTML = "No change " + languageCode;
+        } else {
+        
+          document.getElementById("col").innerHTML = "Change " + languageCode;
+          var colour_i18n = document.createElement('script');
+          var body = document.getElementById("body");
+          colour_i18n.src = "ntc2_" + languageCode + ".js";
+          body.appendChild(colour_i18n);
+        }
+
+        
+    </script>
+                
+   <!--  <script type="text/javascript" charset="utf-8" src="ntc2_fr.js"></script>
+    <script type="text/javascript"> ntc.init(); -->
+
+        
+        
+     </script>
+    
+
+
+    <!-- end i18n -->
+    
+    <script type=text/javascript>
+    
+        
+        </script>
     
   </body>
 </html>

@@ -47,6 +47,10 @@ var ntc = {
   },
 
   name: function(color) {
+  
+    if(this.names[0].length==3) {   // this gets called if the colours have been swapped, and we have
+        this.init()                 // to regenerate the additional colour info
+    }
 
     color = color.toUpperCase();
     if(color.length < 3 || color.length > 7)
