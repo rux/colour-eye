@@ -32,8 +32,8 @@ ntc.shades = [
 ["FFFF00", "Jaune"],
 ["008000", "Vert"],
 ["0000FF", "Bleu"],
-["EE82EE", "Violet"],
-["A52A2A", "Brun"],
+["ac35ce", "Violet"],
+["623d0d", "Brun"],
 ["000000", "Noir"],
 ["808080", "Gris"],
 ["FFFFFF", "Blanc"]

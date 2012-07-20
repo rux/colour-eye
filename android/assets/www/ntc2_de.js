@@ -1,0 +1,1 @@
+../../../iOS/www/ntc2_de.js

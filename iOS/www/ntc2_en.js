@@ -158,8 +158,8 @@ var ntc = {
 ["FFFF00", "Yellow"],
 ["008000", "Green"],
 ["0000FF", "Blue"],
-["EE82EE", "Violet"],
-["A52A2A", "Brown"],
+["ac35ce", "Violet"],
+["623d0d", "Brown"],
 ["000000", "Black"],
 ["808080", "Grey"],
 ["FFFFFF", "White"]
