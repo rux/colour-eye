@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Capture Photo</title>
+    
+    <style type="text/css">
+    	body {font-family: arial,sans-serif;}
+    	button { width:50%; size:200%; }
+    	canvas { margin:0px auto; }
+        .hidden { display:none; }
+
+        #video {
+    width: 120px;
+    height: 180px;
+}​
+    </style>
+
+   <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
+    <script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
+    
+    
+
+    
+    <script type="text/javascript">
+    
+  
+
+
+
+
+  
+
+// OPERA BIT
+
+var n=navigator;
+function onSuccess(stream) {
+  var video = document.getElementById("video");
+  video.autoplay = true;
+  video.src = stream;
+}
+function onError() {
+}
+n.getUserMedia({video: true, audio: false}, onSuccess, onError);
+
+
+
+
+    
+    
+    
+    var coldata;
+    var maxcol=ntc.shade.length;
+    function rgb2hsl(r, g, b){
+      r /= 255, g /= 255, b /= 255;
+      var max = Math.max(r, g, b), min = Math.min(r, g, b);
+      var h, s, l = (max + min) / 2;
+      if(max == min){
+        h = s = 0;
+ // achromatic
+} else{
+  var d = max - min;
+  s = l >0.5 ? d / (2 - max - min) : d / (max + min);
+  switch(max){
+    case r: h = (g - b) / d + (g < b ? 6 : 0);
+    break;
+    case g: h = (b - r) / d + 2;
+    break;
+    case b: h = (r - g) / d + 4;
+    break;
+  }
+  h /= 6;
+}
+return [h, s, l];
+}
+function dec2hex(d) {
+  var n1 = d&15;
+  var n2 = (d&240)>>4;
+  return n2.toString(16)+n1.toString(16);
+}
+function rgb2html(r, g, b) {
+  return '#'+dec2hex(r)+dec2hex(g)+dec2hex(b);
+}
+function hsl2int(h, s, l) {
+  var decColor = Math.floor(l*127) | ( Math.floor(s*127) << 7) | ( Math.floor(h*1023) << 14);
+  return decColor;
+}
+function cmpLength(a,b) {
+  return (b.length-a.length);
+}
+function calcColours(data) {
+  var i;
+  delete(coldata);
+  coldata=new Array();
+  for (i=0;
+   i<maxcol;
+   i++) {
+    coldata[i]=new Array();
+}
+for (i=0;
+ i<data.length;
+ i+=4) {
+  var colour = rgb2html(data[i], data[i+1], data[i+2]);
+var hsl=rgb2hsl(data[i], data[i+1], data[i+2]);
+var n_match = ntc.name(colour);
+var d={
+  "pixel":i, "colour":n_match, "hsl": hsl
+};
+coldata[ntc.shade.indexOf(n_match[3])].push(d);
+}
+coldata.sort(cmpLength);
+}
+function detectColour(place, data) {
+  var maxhue=256;
+  var maxsat=256;
+  var maxlum=256;
+  var i,j,r,g,b;
+  var colplace=coldata[place];
+  var hsldata= new Array();
+  var sldata= new Array();
+  var ldata= new Array();
+  for (i=0;
+   i<maxhue;
+   i++) {
+    hsldata[i]=new Array();
+}
+for (i=0;
+ i<maxsat;
+ i++) {
+  sldata[i]=new Array();
+}
+for (i=0;
+ i<maxlum;
+ i++) {
+  ldata[i]=new Array();
+}
+for (i=0;
+ i<colplace.length;
+ i++) {
+  j=colplace[i];
+var hsl=j.hsl;
+var hue=Math.floor(hsl[0]*(maxhue-1));
+hsldata[hue].push(i);
+}
+hsldata.sort(cmpLength);
+for (i=0;
+ i<hsldata[0].length;
+ i++) {
+  j=colplace[hsldata[0][i]];
+var hsl=j.hsl;
+var sat=Math.floor(hsl[1]*(maxsat-1));
+sldata[sat].push(i);
+}
+sldata.sort(cmpLength);
+for (i=0;
+ i<sldata[0].length;
+ i++) {
+  var j=colplace[sldata[0][i]];
+var hsl=j.hsl;
+var lum=Math.floor(hsl[2]*(maxlum-1));
+ldata[lum].push(i);
+}
+ldata.sort(cmpLength);
+var result=colplace[ldata[0][0]];
+return result;
+}
+
+
+
+
+function draw() {
+  var orig = document.getElementById('canvas');
+  var ctx = orig.getContext('2d');
+  // var img = new Image();
+  var vid = document.getElementById("video");
+
+  alert("snapping")
+    ctx.clearRect(0,0,orig.width,orig.height);
+    ctx.drawImage(vid, 0, 0, 32, 32);
+
+
+    var pix;
+    var colour;
+    var n_match;
+    var hsl;
+    var imgd = ctx.getImageData(0, 0, orig.width, orig.height);
+    var data=imgd.data;
+    calcColours(data);
+    for (i=0; ((i<maxcol) && (coldata[i].length>0)); i++) {
+      pix =detectColour(i, data);
+      var perc=Math.floor(coldata[i].length/(data.length/4000))/10;
+      colour = rgb2html(data[pix.pixel], data[pix.pixel+1], data[pix.pixel+2]);
+      n_match = pix.colour;
+      hsl=pix.hsl;
+      prefix = "";
+      sat = ntc.saturation[1];
+      if (hsl[1]<0.3) {
+        sat=ntc.saturation[2];
+        prefix=sat+' ';
+      } else if (hsl[1]>0.7) {
+        sat=ntc.saturation[0];
+        prefix=sat+' ';
+      }
+      lum = ntc.luminance[1];
+      if (hsl[2]<0.3) {
+        lum= ntc.luminance[2];
+        prefix=prefix+lum+' ';
+      } else if (hsl[2]>0.7) {
+        lum= ntc.luminance[0];
+        prefix=prefix+lum+' ';
+      }
+      if (i==0) {
+        console.log("setting up")
+        document.getElementById('col').value="";
+
+        document.getElementById('swatches').innerHTML = "";
+        document.bgColor = colour;
+        document.getElementById('width').value=img.width;
+        document.getElementById('height').value=img.height;
+        document.getElementById('red').value=data[pix.pixel];
+        document.getElementById('green').value=data[pix.pixel+1];
+        document.getElementById('blue').value=data[pix.pixel+2];
+        document.getElementById('bgcolor').value=colour;
+        document.getElementById('sat').value=sat;
+        document.getElementById('lum').value=lum;
+      }
+        console.log("setting innerhtml")
+      
+      document.getElementById('col').value+= perc+"% "+prefix + n_match[3].toLowerCase() +' - '+ n_match[1]+".\n";
+      // document.getElementById('col').value+=perc+" "+prefix + n_match[3]+"\n";
+      //document.getElementById('col').focus();
+      document.getElementById('swatches').innerHTML += '<div style="width:2em; height:'+ perc/10 + 'em; background-color:'+ n_match[0] +'">&nbsp;</div>';
+    }
+      //document.getElementById('col').focus();
+
+}
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+
+    var pictureSource;   // picture source
+    var destinationType; // sets the format of returned value 
+
+    document.addEventListener("deviceready",onDeviceReady,false);
+
+    function onDeviceReady() {
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+    }
+
+
+    function capturePhoto() {
+        if (navigator.camera) {
+        	alert("taking a photo now")
+            navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 1, destinationType: destinationType.DATA_URL });
+        } else {
+            document.getElementById("captureButton").innerHTML = "Camera not found" 
+            console.log("phonegap camera not available");
+        }
+    }
+
+    function onPhotoDataSuccess(imageData) {
+    	alert("Successfully called back");
+      var smallImage = document.getElementById('smallImage');
+      // smallImage.style.display = 'block';
+      smallImage.src = "data:image/jpeg;base64," + imageData;
+      draw(smallImage);
+    }
+
+    
+
+    function onFail(message) {
+    	//navigator.notification.alert("fail");
+      alert('Failed because: ' + message);
+    }
+
+
+    function drawPhotoFromGallery() {
+        if (navigator.camera) {
+            navigator.camera.getPicture(gallerySuccess, onFail, {
+                destinationType: destinationType.FILE_URI,
+                sourceType: pictureSource.PHOTOLIBRARY
+            })
+        } else {
+            
+        }
+    }
+    function gallerySuccess(imageData) {
+        document.getElementById("smallImage").src = imageData
+        draw(document.getElementById('smallImage'));
+    }
+
+
+
+
+    </script>
+    
+  </head>
+  <body id="body">
+    <button id="captureButton" style="font-size:200%;" onclick="draw();" aria-controls="col" value="Take a photo">Take Photo</button> <br>
+  
+    <div style="width:100%;text-align:center">
+      <img style="height:120px ;" id="smallImage" src="" alt="" />
+    </div>
+    <canvas class="" id="canvas" width="12" height="18"></canvas>
+        
+    <video id="video" width="120" height="180"></video>
+
+
+    <form id="image">
+
+
+
+
+<label for="col" >Colours:</label><br/>
+
+<div id="swatches" style="border:1px solid black; float:left"></div>
+<textarea name="col" id="col" cols="40" rows="10" role="log" aria-live="assertive"></textarea>
+
+
+<label class="hidden" for="bgcolor">bgcolor:</label>
+<input class="hidden" type="text" name="bgcolor" id="bgcolor" value="" /><br/>
+
+<label class="hidden" for="sat">Saturation:</label>
+<input class="hidden" type="text" name="sat" id="sat" value="" /><br/>
+
+<label class="hidden" for="lum">Brightness:</label>
+<input class="hidden" type="text" name="lum" id="lum" value="" /><br/>
+
+
+
+
+<label class="hidden" for="width">Width:</label>
+<input class="hidden"  type="text" name="width" id="width" value="" /><br/>
+<label class="hidden"  for="height">Height: </label>
+<input class="hidden"  type="text" name="height" id="height" value="" /> <br/>
+
+<label class="hidden"  for="red">red:</label>
+<input class="hidden"  type="text" name="red" id="red" value="" /><br/>
+<label class="hidden"  for="green">green:</label>
+<input class="hidden"  type="text" name="green" id="green" value="" /><br/>
+<label class="hidden"  for="blue">blue:</label>
+<input class="hidden"  type="text" name="blue" id="blue" value="" /><br/>
+
+
+<label class="hidden"  for="bgcolor">bgcolor:</label>
+<input class="hidden"  type="text" name="bgcolor" id="bgcolor" value="" /><br/>
+
+<label class="hidden"  for="hslint">HSL long integer:</label>
+<input class="hidden"  type="text" name="hslint" id="hslint" value="" /><br/>
+
+
+
+
+</form>
+    
+        <!-- i18n -->
+    
+    <script type="text/javascript">
+        var languageCode = navigator.language.substr(0,2);
+        var translations = {};
+        
+        
+        if (languageCode == "en") {
+          document.getElementById("col").innerHTML = "No change " + languageCode;
+        } else {
+        
+          document.getElementById("col").innerHTML = "Change " + languageCode;
+          var colour_i18n = document.createElement('script');
+          var body = document.getElementById("body");
+          colour_i18n.src = "ntc2_" + languageCode + ".js";
+          body.appendChild(colour_i18n);
+        }
+
+        
+    </script>
+                
+   <!--  <script type="text/javascript" charset="utf-8" src="ntc2_fr.js"></script>
+    <script type="text/javascript"> ntc.init(); -->
+
+        
+        
+     </script>
+    
+
+
+    <!-- end i18n -->
+    
+    <script type=text/javascript>
+    
+        
+        </script>
+    
+  </body>
+</html>
