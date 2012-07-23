@@ -10,7 +10,7 @@
         .hidden { display:none; }
     </style>
 
-    <script type="text/javascript" charset="utf-8" src="cordova-1.8.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
    <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
     <script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
     
@@ -223,17 +223,10 @@ document.getElementById('swatches').innerHTML = "";
         destinationType=navigator.camera.DestinationType;
     }
 
-    function onPhotoDataSuccess(imageData) {
-    	//	navigator.notification.alert("win");
-      var smallImage = document.getElementById('smallImage');
-      // smallImage.style.display = 'block';
-      smallImage.src = "data:image/jpeg;base64," + imageData;
-      draw(smallImage);
-    }
-
 
     function capturePhoto() {
         if (navigator.camera) {
+        	alert("taking a photo now")
             navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 1, destinationType: destinationType.DATA_URL });
         } else {
             document.getElementById("captureButton").innerHTML = "Camera not found" 
@@ -241,6 +234,15 @@ document.getElementById('swatches').innerHTML = "";
         }
     }
 
+    function onPhotoDataSuccess(imageData) {
+    	alert("Successfully called back");
+      var smallImage = document.getElementById('smallImage');
+      // smallImage.style.display = 'block';
+      smallImage.src = "data:image/jpeg;base64," + imageData;
+      draw(smallImage);
+    }
+
+    
 
     function onFail(message) {
     	//navigator.notification.alert("fail");
@@ -267,7 +269,7 @@ document.getElementById('swatches').innerHTML = "";
     
   </head>
   <body id="body">
-    <button id="captureButton" style="font-size:200%;" onclick="capturePhoto();" aria-controls="col">Take Photo</button> <br>
+    <button id="captureButton" style="font-size:200%;" onclick="capturePhoto();" aria-controls="col" value="Take a photo">Take Photo</button> <br>
     <button id="galleryButton" style="font-size:200%;" onclick="drawPhotoFromGallery();" type="button" aria-controls="col"/>Camera roll</button><br/>
   
     <div style="width:100%;text-align:center">
