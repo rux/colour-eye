@@ -10,25 +10,16 @@
         .hidden { display:none; }
 
         #video {
-    width: 120px;
-    height: 180px;
+    width: 240px;
+    height: 320px;
 }​
     </style>
 
    <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
     <script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
-    
-    
 
-    
     <script type="text/javascript">
-    
-  
 
-
-
-
-  
 
 // OPERA BIT
 
@@ -43,10 +34,6 @@ function onError() {
 n.getUserMedia({video: true, audio: false}, onSuccess, onError);
 
 
-
-
-    
-    
     
     var coldata;
     var maxcol=ntc.shade.length;
@@ -175,7 +162,7 @@ function draw() {
 
   alert("snapping")
     ctx.clearRect(0,0,orig.width,orig.height);
-    ctx.drawImage(vid, 0, 0, 32, 32);
+    ctx.drawImage(vid, 0, 0, 12, 16);
 
 
     var pix;
@@ -214,8 +201,6 @@ function draw() {
 
         document.getElementById('swatches').innerHTML = "";
         document.bgColor = colour;
-        document.getElementById('width').value=img.width;
-        document.getElementById('height').value=img.height;
         document.getElementById('red').value=data[pix.pixel];
         document.getElementById('green').value=data[pix.pixel+1];
         document.getElementById('blue').value=data[pix.pixel+2];
@@ -236,12 +221,6 @@ function draw() {
 
 
 
-
-    
-    
-    
-    
-    
     
     
 
@@ -304,62 +283,49 @@ function draw() {
     
   </head>
   <body id="body">
-    <button id="captureButton" style="font-size:200%;" onclick="draw();" aria-controls="col" value="Take a photo">Take Photo</button> <br>
-  
-    <div style="width:100%;text-align:center">
-      <img style="height:120px ;" id="smallImage" src="" alt="" />
-    </div>
-    <canvas class="" id="canvas" width="12" height="18"></canvas>
+    <canvas class="hidden" id="canvas" width="12" height="16"></canvas>
         
-    <video id="video" width="120" height="180"></video>
+    <video id="video" onclick="draw();"></video>
 
 
     <form id="image">
 
+      <label for="col" >Colours:</label><br/>
+
+      <div id="swatches" style="border:1px solid black; float:left"></div>
+      <textarea name="col" id="col" cols="40" rows="10" role="log" aria-live="assertive"></textarea>
 
 
+      <label class="hidden" for="bgcolor">bgcolor:</label>
+      <input class="hidden" type="text" name="bgcolor" id="bgcolor" value="" /><br/>
 
-<label for="col" >Colours:</label><br/>
+      <label class="hidden" for="sat">Saturation:</label>
+      <input class="hidden" type="text" name="sat" id="sat" value="" /><br/>
 
-<div id="swatches" style="border:1px solid black; float:left"></div>
-<textarea name="col" id="col" cols="40" rows="10" role="log" aria-live="assertive"></textarea>
-
-
-<label class="hidden" for="bgcolor">bgcolor:</label>
-<input class="hidden" type="text" name="bgcolor" id="bgcolor" value="" /><br/>
-
-<label class="hidden" for="sat">Saturation:</label>
-<input class="hidden" type="text" name="sat" id="sat" value="" /><br/>
-
-<label class="hidden" for="lum">Brightness:</label>
-<input class="hidden" type="text" name="lum" id="lum" value="" /><br/>
-
-
-
-
-<label class="hidden" for="width">Width:</label>
-<input class="hidden"  type="text" name="width" id="width" value="" /><br/>
-<label class="hidden"  for="height">Height: </label>
-<input class="hidden"  type="text" name="height" id="height" value="" /> <br/>
-
-<label class="hidden"  for="red">red:</label>
-<input class="hidden"  type="text" name="red" id="red" value="" /><br/>
-<label class="hidden"  for="green">green:</label>
-<input class="hidden"  type="text" name="green" id="green" value="" /><br/>
-<label class="hidden"  for="blue">blue:</label>
-<input class="hidden"  type="text" name="blue" id="blue" value="" /><br/>
-
-
-<label class="hidden"  for="bgcolor">bgcolor:</label>
-<input class="hidden"  type="text" name="bgcolor" id="bgcolor" value="" /><br/>
-
-<label class="hidden"  for="hslint">HSL long integer:</label>
-<input class="hidden"  type="text" name="hslint" id="hslint" value="" /><br/>
+      <label class="hidden" for="lum">Brightness:</label>
+      <input class="hidden" type="text" name="lum" id="lum" value="" /><br/>
 
 
 
 
-</form>
+      <label class="hidden"  for="red">red:</label>
+      <input class="hidden"  type="text" name="red" id="red" value="" /><br/>
+      <label class="hidden"  for="green">green:</label>
+      <input class="hidden"  type="text" name="green" id="green" value="" /><br/>
+      <label class="hidden"  for="blue">blue:</label>
+      <input class="hidden"  type="text" name="blue" id="blue" value="" /><br/>
+
+
+      <label class="hidden"  for="bgcolor">bgcolor:</label>
+      <input class="hidden"  type="text" name="bgcolor" id="bgcolor" value="" /><br/>
+
+      <label class="hidden"  for="hslint">HSL long integer:</label>
+      <input class="hidden"  type="text" name="hslint" id="hslint" value="" /><br/>
+
+
+
+
+    </form>
     
         <!-- i18n -->
     
@@ -385,18 +351,7 @@ function draw() {
    <!--  <script type="text/javascript" charset="utf-8" src="ntc2_fr.js"></script>
     <script type="text/javascript"> ntc.init(); -->
 
-        
-        
      </script>
-    
-
-
     <!-- end i18n -->
-    
-    <script type=text/javascript>
-    
-        
-        </script>
-    
   </body>
 </html>
