@@ -17,6 +17,8 @@
 
    <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
     <script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
+    <script type="text/javascript" charset="utf-8" src="speakClient.js"></script>
+    <script type="text/javascript" charset="utf-8" src="speakGenerator.js"></script>
 
     <script type="text/javascript">
 
@@ -209,12 +211,16 @@ function draw() {
         document.getElementById('lum').value=lum;
       }
         console.log("setting innerhtml")
+
+
       
       document.getElementById('col').value+= perc+"% "+prefix + n_match[3].toLowerCase() +' - '+ n_match[1]+".\n";
       // document.getElementById('col').value+=perc+" "+prefix + n_match[3]+"\n";
       //document.getElementById('col').focus();
       document.getElementById('swatches').innerHTML += '<div style="width:2em; height:'+ perc/10 + 'em; background-color:'+ n_match[0] +'">&nbsp;</div>';
     }
+    console.log("speaking");
+    speak(document.getElementById('col').value);
       //document.getElementById('col').focus();
 
 }
@@ -275,10 +281,6 @@ function draw() {
         document.getElementById("smallImage").src = imageData
         draw(document.getElementById('smallImage'));
     }
-
-
-
-
     </script>
     
   </head>
@@ -287,6 +289,7 @@ function draw() {
         
     <video id="video" onclick="draw();"></video>
 
+    <button onclick="speak('hello')">talk</button>
 
     <form id="image">
 
@@ -353,5 +356,8 @@ function draw() {
 
      </script>
     <!-- end i18n -->
+
+<div id="audio"></div>
+
   </body>
 </html>
