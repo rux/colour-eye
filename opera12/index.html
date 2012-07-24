@@ -3,22 +3,46 @@
   <head>
     <title>Capture Photo</title>
     
+<meta name="viewport" content="width:320, initial-scale=1" >
+
     <style type="text/css">
-    	body {font-family: arial,sans-serif;}
+    	body {font-family: arial,sans-serif;
+        padding:0px;
+        margin:0px;
+        width:320px;
+      }
     	button { width:50%; size:200%; }
     	canvas { margin:0px auto; }
         .hidden { display:none; }
 
+        #swatches {
+          float:left;
+          width:23%;
+          border-width: 0px;
+        }
+        #swatches div {
+          border:0px solid black;
+        }
+        #col {
+          width:73%;
+          float:right;
+          font-size:0.8em;
+        }
+
+        #snapshot {
+          border:1px solid black;
+            width: 150px;
+            height:190px;
+        }
         #video {
-    width: 240px;
-    height: 320px;
-}​
+          border:1px solid black;
+            width: 150px;
+            height:190px;
+          }
     </style>
 
    <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
     <script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
-    <script type="text/javascript" charset="utf-8" src="speakClient.js"></script>
-    <script type="text/javascript" charset="utf-8" src="speakGenerator.js"></script>
 
     <script type="text/javascript">
 
@@ -156,13 +180,22 @@ return result;
 
 
 
-function draw() {
+function calculateColours() {
+
+  document.getElementById('col').innerHTML = ""
+
+
   var orig = document.getElementById('canvas');
   var ctx = orig.getContext('2d');
-  // var img = new Image();
+
+  var snapshot = document.getElementById("snapshot");
+  var snapshotCtx = snapshot.getContext('2d');
+
   var vid = document.getElementById("video");
 
-  alert("snapping")
+
+    snapshotCtx.drawImage(vid,0,0, 300, 150);
+
     ctx.clearRect(0,0,orig.width,orig.height);
     ctx.drawImage(vid, 0, 0, 12, 16);
 
@@ -203,131 +236,34 @@ function draw() {
 
         document.getElementById('swatches').innerHTML = "";
         document.bgColor = colour;
-        document.getElementById('red').value=data[pix.pixel];
-        document.getElementById('green').value=data[pix.pixel+1];
-        document.getElementById('blue').value=data[pix.pixel+2];
-        document.getElementById('bgcolor').value=colour;
-        document.getElementById('sat').value=sat;
-        document.getElementById('lum').value=lum;
       }
         console.log("setting innerhtml")
 
 
       
-      document.getElementById('col').value+= perc+"% "+prefix + n_match[3].toLowerCase() +' - '+ n_match[1]+".\n";
+      document.getElementById('col').innerHTML+= perc+"% "+prefix + n_match[3].toLowerCase() +' - '+ n_match[1]+"<br/>\n";
       // document.getElementById('col').value+=perc+" "+prefix + n_match[3]+"\n";
       //document.getElementById('col').focus();
-      document.getElementById('swatches').innerHTML += '<div style="width:2em; height:'+ perc/10 + 'em; background-color:'+ n_match[0] +'">&nbsp;</div>';
+      document.getElementById('swatches').innerHTML += '<div style="width:100%; height:'+ perc/10 + 'em; background-color:'+ n_match[0] +'">&nbsp;</div>';
     }
-    console.log("speaking");
-    speak(document.getElementById('col').value);
-      //document.getElementById('col').focus();
-
 }
 
 
-
-    
-    
-
-    var pictureSource;   // picture source
-    var destinationType; // sets the format of returned value 
-
     document.addEventListener("deviceready",onDeviceReady,false);
 
-    function onDeviceReady() {
-        pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
-    }
 
-
-    function capturePhoto() {
-        if (navigator.camera) {
-        	alert("taking a photo now")
-            navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 1, destinationType: destinationType.DATA_URL });
-        } else {
-            document.getElementById("captureButton").innerHTML = "Camera not found" 
-            console.log("phonegap camera not available");
-        }
-    }
-
-    function onPhotoDataSuccess(imageData) {
-    	alert("Successfully called back");
-      var smallImage = document.getElementById('smallImage');
-      // smallImage.style.display = 'block';
-      smallImage.src = "data:image/jpeg;base64," + imageData;
-      draw(smallImage);
-    }
-
-    
-
-    function onFail(message) {
-    	//navigator.notification.alert("fail");
-      alert('Failed because: ' + message);
-    }
-
-
-    function drawPhotoFromGallery() {
-        if (navigator.camera) {
-            navigator.camera.getPicture(gallerySuccess, onFail, {
-                destinationType: destinationType.FILE_URI,
-                sourceType: pictureSource.PHOTOLIBRARY
-            })
-        } else {
-            
-        }
-    }
-    function gallerySuccess(imageData) {
-        document.getElementById("smallImage").src = imageData
-        draw(document.getElementById('smallImage'));
-    }
     </script>
     
   </head>
   <body id="body">
-    <canvas class="hidden" id="canvas" width="12" height="16"></canvas>
-        
-    <video id="video" onclick="draw();"></video>
+    
+    <canvas id="snapshot"></canvas>
+    <video id="video" onclick="calculateColours();"></video>
 
-    <button onclick="speak('hello')">talk</button>
-
-    <form id="image">
-
-      <label for="col" >Colours:</label><br/>
-
-      <div id="swatches" style="border:1px solid black; float:left"></div>
-      <textarea name="col" id="col" cols="40" rows="10" role="log" aria-live="assertive"></textarea>
-
-
-      <label class="hidden" for="bgcolor">bgcolor:</label>
-      <input class="hidden" type="text" name="bgcolor" id="bgcolor" value="" /><br/>
-
-      <label class="hidden" for="sat">Saturation:</label>
-      <input class="hidden" type="text" name="sat" id="sat" value="" /><br/>
-
-      <label class="hidden" for="lum">Brightness:</label>
-      <input class="hidden" type="text" name="lum" id="lum" value="" /><br/>
-
-
-
-
-      <label class="hidden"  for="red">red:</label>
-      <input class="hidden"  type="text" name="red" id="red" value="" /><br/>
-      <label class="hidden"  for="green">green:</label>
-      <input class="hidden"  type="text" name="green" id="green" value="" /><br/>
-      <label class="hidden"  for="blue">blue:</label>
-      <input class="hidden"  type="text" name="blue" id="blue" value="" /><br/>
-
-
-      <label class="hidden"  for="bgcolor">bgcolor:</label>
-      <input class="hidden"  type="text" name="bgcolor" id="bgcolor" value="" /><br/>
-
-      <label class="hidden"  for="hslint">HSL long integer:</label>
-      <input class="hidden"  type="text" name="hslint" id="hslint" value="" /><br/>
-
-
-
-
+    <form id="imagedata" onClick="">
+      <label class="hidden" for="col" >Colours:</label><br/>
+      <div id="swatches"></div>
+      <div name="col" id="col" role="col" aria-live="assertive"></div>
     </form>
     
         <!-- i18n -->
@@ -357,7 +293,7 @@ function draw() {
      </script>
     <!-- end i18n -->
 
-<div id="audio"></div>
+    <canvas class="hidden" id="canvas" width="12" height="16"></canvas>
 
   </body>
 </html>
