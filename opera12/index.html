@@ -274,10 +274,10 @@ function calculateColours() {
         
         
         if (languageCode == "en") {
-          document.getElementById("col").innerHTML = "No change " + languageCode;
+          //document.getElementById("col").innerHTML = "No change, language is " + languageCode;
         } else {
         
-          document.getElementById("col").innerHTML = "Change " + languageCode;
+          //document.getElementById("col").innerHTML = "Language is " + languageCode;
           var colour_i18n = document.createElement('script');
           var body = document.getElementById("body");
           colour_i18n.src = "ntc2_" + languageCode + ".js";
