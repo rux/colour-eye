@@ -48,7 +48,9 @@
             width: 150px;
             height:190px;
             left:0px;
-          -o-transition: left 1s ease-out;
+          -o-transition: left 0.5s ease-out;
+          -webkit-transition: left 0.5s ease-out;
+          -transition: left 0.5s ease-out;
 
         }
         #video {
@@ -219,8 +221,6 @@ function calculateColours() {
 
   snapshotCtx.drawImage(vid,0,0, 300, 150);
 
-  snapshot.style.setProperty("-o-transition", "left 0s");
-  snapshot.style.left = "0px";
   setTimeout(function(){ // timeout allows the clearing of the transition, otherwise it optimises and never moves
     snapshot.style.setProperty("-o-transition", "left 1s ease-out");
     snapshot.style.setProperty("left", "160px");
