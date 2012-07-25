@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Capture Photo</title>
+    <title>Colour Eye</title>
     
 <meta name="viewport" content="width:320, initial-scale=1" >
 
@@ -15,6 +15,15 @@
     	canvas { margin:0px auto; }
         .hidden { display:none; }
 
+      header h1 {
+        font-size: 12px;
+        margin: 0.5em 0.5em;
+      }
+      header img {
+        height:10px;
+        padding-right:5px;
+      }
+
         #swatches {
           float:left;
           width:23%;
@@ -26,16 +35,20 @@
         #col {
           width:73%;
           float:right;
-          font-size:0.8em;
+          font-size:12px;
         }
 
+        #vidContainer {
+          text-align:center;
+          margin:0px auto;
+        }
         #snapshot {
-          border:1px solid black;
+          border:1px solid #dddddd;
             width: 150px;
             height:190px;
         }
         #video {
-          border:1px solid black;
+          border:1px solid #ddd;
             width: 150px;
             height:190px;
           }
@@ -235,7 +248,7 @@ function calculateColours() {
         document.getElementById('col').value="";
 
         document.getElementById('swatches').innerHTML = "";
-        document.bgColor = colour;
+        // document.bgColor = colour;
       }
         console.log("setting innerhtml")
 
@@ -257,8 +270,14 @@ function calculateColours() {
   </head>
   <body id="body">
     
-    <canvas id="snapshot"></canvas>
-    <video id="video" onclick="calculateColours();"></video>
+    <header>
+      <h1><img src="logo.png" />Colour Eye: tap the video to analyse</h1>
+    </header>
+
+    <div id="vidContainer">
+      <canvas id="snapshot"></canvas>
+      <video id="video" onclick="calculateColours();"></video>
+    </div>
 
     <form id="imagedata" onClick="">
       <label class="hidden" for="col" >Colours:</label><br/>
