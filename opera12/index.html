@@ -39,19 +39,26 @@
         }
 
         #vidContainer {
-          text-align:center;
-          margin:0px auto;
+          /* text-align:center;
+          margin:0px auto; */
         }
         #snapshot {
+          position:fixed;
           border:1px solid #dddddd;
             width: 150px;
             height:190px;
+            left:0px;
+          -o-transition: left 1s ease-out;
+
         }
         #video {
           border:1px solid #ddd;
             width: 150px;
             height:190px;
           }
+
+
+
     </style>
 
    <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
@@ -196,21 +203,34 @@ return result;
 function calculateColours() {
 
   document.getElementById('col').innerHTML = ""
+  var vidContainer = document.getElementById("vidContainer");
+  
 
 
-  var orig = document.getElementById('canvas');
-  var ctx = orig.getContext('2d');
+  vidContainer.removeChild(document.getElementById("snapshot"));
 
-  var snapshot = document.getElementById("snapshot");
+  var snapshot = document.createElement("canvas");
+  vidContainer.appendChild(snapshot);
+  snapshot.setAttribute("id", "snapshot");
+
+
   var snapshotCtx = snapshot.getContext('2d');
-
   var vid = document.getElementById("video");
 
+  snapshotCtx.drawImage(vid,0,0, 300, 150);
 
-    snapshotCtx.drawImage(vid,0,0, 300, 150);
+  snapshot.style.setProperty("-o-transition", "left 0s");
+  snapshot.style.left = "0px";
+  setTimeout(function(){ // timeout allows the clearing of the transition, otherwise it optimises and never moves
+    snapshot.style.setProperty("-o-transition", "left 1s ease-out");
+    snapshot.style.setProperty("left", "160px");
+  }, 1)
 
-    ctx.clearRect(0,0,orig.width,orig.height);
-    ctx.drawImage(vid, 0, 0, 12, 16);
+  
+  var orig = document.getElementById('canvas');
+  var ctx = orig.getContext('2d');
+  ctx.clearRect(0,0,orig.width,orig.height);
+  ctx.drawImage(vid, 0, 0, 12, 16);
 
 
     var pix;
@@ -262,7 +282,6 @@ function calculateColours() {
 }
 
 
-    document.addEventListener("deviceready",onDeviceReady,false);
 
 
     </script>
@@ -275,8 +294,8 @@ function calculateColours() {
     </header>
 
     <div id="vidContainer">
-      <canvas id="snapshot"></canvas>
       <video id="video" onclick="calculateColours();"></video>
+      <canvas id="snapshot" onclick="calculateColours();"></canvas>
     </div>
 
     <form id="imagedata" onClick="">
