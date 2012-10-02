@@ -25,7 +25,7 @@
 //  Copyright __MyCompanyName__ 2012. All rights reserved.
 //
 
-#import "MainViewController.h"
+#import <MainViewController.h>
 
 @implementation MainViewController
 
