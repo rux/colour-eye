@@ -227,7 +227,7 @@ document.getElementById('swatches').innerHTML = "";
     function capturePhoto() {
         if (navigator.camera) {
         	alert("taking a photo now")
-            navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 1, destinationType: destinationType.DATA_URL });
+            navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50, destinationType: destinationType.DATA_URL });
         } else {
             document.getElementById("captureButton").innerHTML = "Camera not found" 
             console.log("phonegap camera not available");

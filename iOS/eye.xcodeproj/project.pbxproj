@@ -39,7 +39,6 @@
 		CE5B5AE0158757BF002EDD88 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5B5ADF158757BF002EDD88 /* AppDelegate.m */; };
 		CE5B5AE3158757BF002EDD88 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5B5AE2158757BF002EDD88 /* MainViewController.m */; };
 		CE5B5AE5158757BF002EDD88 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5B5AE4158757BF002EDD88 /* MainViewController.xib */; };
-		CE84D173161AFC9700630DB2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE84D172161AFC9700630DB2 /* Default-568h@2x.png */; };
 		CE84D175161AFDB000630DB2 /* cordova in Resources */ = {isa = PBXBuildFile; fileRef = CE84D174161AFDB000630DB2 /* cordova */; };
 /* End PBXBuildFile section */
 
@@ -99,7 +98,6 @@
 		CE5B5AE4158757BF002EDD88 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainViewController.xib; path = Classes/MainViewController.xib; sourceTree = "<group>"; };
 		CE5B5AE7158757BF002EDD88 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		CE84D169161AFBAC00630DB2 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = "../../../../../Developer/phonegap-2.1.0/lib/ios/CordovaLib/CordovaLib.xcodeproj"; sourceTree = "<group>"; };
-		CE84D172161AFC9700630DB2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		CE84D174161AFDB000630DB2 /* cordova */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cordova; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,7 +138,6 @@
 			children = (
 				CE02F299161B36BC00E8D708 /* VERSION */,
 				CE84D169161AFBAC00630DB2 /* CordovaLib.xcodeproj */,
-				CE84D172161AFC9700630DB2 /* Default-568h@2x.png */,
 				CE14094315878F8D0002C150 /* www */,
 				CE5B5AB1158757BE002EDD88 /* eye */,
 				CE5B5A96158757BE002EDD88 /* Frameworks */,
@@ -379,7 +376,6 @@
 				CE5B5ADC158757BF002EDD88 /* Cordova.plist in Resources */,
 				CE5B5AE5158757BF002EDD88 /* MainViewController.xib in Resources */,
 				CE14094415878F8D0002C150 /* www in Resources */,
-				CE84D173161AFC9700630DB2 /* Default-568h@2x.png in Resources */,
 				CE84D175161AFDB000630DB2 /* cordova in Resources */,
 				CE02F29A161B36BC00E8D708 /* VERSION in Resources */,
 			);
