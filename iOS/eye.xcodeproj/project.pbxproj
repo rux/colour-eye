@@ -40,6 +40,7 @@
 		CE5B5AE3158757BF002EDD88 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5B5AE2158757BF002EDD88 /* MainViewController.m */; };
 		CE5B5AE5158757BF002EDD88 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5B5AE4158757BF002EDD88 /* MainViewController.xib */; };
 		CE84D175161AFDB000630DB2 /* cordova in Resources */ = {isa = PBXBuildFile; fileRef = CE84D174161AFDB000630DB2 /* cordova */; };
+		CEA17873162C19890070FEE9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEA17872162C19890070FEE9 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		CE5B5AE7158757BF002EDD88 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
 		CE84D169161AFBAC00630DB2 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = "../../../../../Developer/phonegap-2.1.0/lib/ios/CordovaLib/CordovaLib.xcodeproj"; sourceTree = "<group>"; };
 		CE84D174161AFDB000630DB2 /* cordova */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cordova; sourceTree = "<group>"; };
+		CEA17872162C19890070FEE9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +138,7 @@
 		CE5B5A85158757BE002EDD88 = {
 			isa = PBXGroup;
 			children = (
+				CEA17872162C19890070FEE9 /* Default-568h@2x.png */,
 				CE02F299161B36BC00E8D708 /* VERSION */,
 				CE84D169161AFBAC00630DB2 /* CordovaLib.xcodeproj */,
 				CE14094315878F8D0002C150 /* www */,
@@ -378,6 +381,7 @@
 				CE14094415878F8D0002C150 /* www in Resources */,
 				CE84D175161AFDB000630DB2 /* cordova in Resources */,
 				CE02F29A161B36BC00E8D708 /* VERSION in Resources */,
+				CEA17873162C19890070FEE9 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

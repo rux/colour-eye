@@ -226,7 +226,7 @@ document.getElementById('swatches').innerHTML = "";
 
     function capturePhoto() {
         if (navigator.camera) {
-        	alert("taking a photo now")
+        	// alert("taking a photo now")
             navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50, destinationType: destinationType.DATA_URL });
         } else {
             document.getElementById("captureButton").innerHTML = "Camera not found" 
@@ -235,7 +235,7 @@ document.getElementById('swatches').innerHTML = "";
     }
 
     function onPhotoDataSuccess(imageData) {
-    	alert("Successfully called back");
+    	// alert("Successfully called back");
       var smallImage = document.getElementById('smallImage');
       // smallImage.style.display = 'block';
       smallImage.src = "data:image/jpeg;base64," + imageData;
@@ -285,7 +285,7 @@ document.getElementById('swatches').innerHTML = "";
 <label for="col" >Colours:</label><br/>
 
 <div id="swatches" style="border:1px solid black; float:left"></div>
-<textarea name="col" id="col" cols="40" rows="10" role="log" aria-live="assertive"></textarea>
+<textarea name="col" id="col" cols="30" rows="10" role="log" aria-live="assertive"></textarea>
 
 
 <label class="hidden" for="bgcolor">bgcolor:</label>
