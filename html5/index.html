@@ -78,13 +78,19 @@ n.getMedia = ( navigator.getUserMedia ||
                        navigator.webkitGetUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
+window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
 
+console.log(n);
 
 function onSuccess(stream) {
   console.log("got permission to use the media stream")
   var video = document.getElementById("video");
   video.autoplay = true;
-  video.src = stream;
+  if (video.mozSrcObject !== undefined) {
+      video.mozSrcObject = stream;
+  } else {
+      video.src = (window.URL && window.URL.createObjectURL(stream)) || stream;
+  };
   video.play();
 }
 function onError(error) {
