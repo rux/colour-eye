@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset='utf-8'>
     <title>Colour Eye</title>
 
 <meta name="viewport" content="width:320, initial-scale=1" >
@@ -72,8 +73,6 @@
 // OPERA BIT
 
 var n=navigator;
-
-
 // cross platformize
 n.getMedia = ( navigator.getUserMedia ||
                        navigator.webkitGetUserMedia ||
@@ -82,9 +81,11 @@ n.getMedia = ( navigator.getUserMedia ||
 
 
 function onSuccess(stream) {
+  console.log("got permission to use the media stream")
   var video = document.getElementById("video");
   video.autoplay = true;
   video.src = stream;
+  video.play();
 }
 function onError() {
 }
