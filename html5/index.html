@@ -87,7 +87,10 @@ function onSuccess(stream) {
   video.src = stream;
   video.play();
 }
-function onError() {
+function onError(error) {
+
+  console.log("error getting stream")
+  console.log(error)
 }
 n.getMedia({video: true, audio: false}, onSuccess, onError);
 
