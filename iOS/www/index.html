@@ -2,27 +2,30 @@
 <html>
   <head>
     <title>Capture Photo</title>
-    
+
     <style type="text/css">
     	body {font-family: arial,sans-serif;}
     	button { width:100%; size:200%; }
-    	canvas { margin:0px auto; }
+    	canvas { margin:0px auto;
+          border:3px solid green;
+        }
         .hidden { display:none; }
     </style>
 
-    <script type="text/javascript" charset="utf-8" src="cordova-2.1.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova-2.7.0.js"></script>
    <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
     <script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
     
-    
 
-    
+
+
+
     <script type="text/javascript">
-    
-  
-    
-    
-    
+
+
+
+
+
 var coldata;
  var maxcol=ntc.shade.length;
  function rgb2hsl(r, g, b){
@@ -143,7 +146,7 @@ var orig = document.getElementById('canvas');
  var ctx = orig.getContext('2d');
  var img = new Image();
  img.onload = function(){
-ctx.clearRect(0,0,orig.width,orig.height);
+ ctx.clearRect(0,0,orig.width,orig.height);
  ctx.drawImage(img, 0,0, orig.width, orig.height);
  var pix;
  var colour;
@@ -162,10 +165,10 @@ pix =detectColour(i, data);
  hsl=pix.hsl;
  prefix = "";
  sat = ntc.saturation[1];
- if (hsl[1]<0.3) {
+ if (hsl[1]<0.1) {
 sat=ntc.saturation[2];
  prefix=sat+' ';
-} else if (hsl[1]>0.7) {
+} else if (hsl[1]>0.5) {
 sat=ntc.saturation[0];
 prefix=sat+' ';
 }
@@ -199,22 +202,23 @@ document.getElementById('swatches').innerHTML = "";
 //document.getElementById('col').focus();
  delete img;
     }
+    
     img.src = freshimage.src;
 }
 
 
 
 
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
 
     var pictureSource;   // picture source
-    var destinationType; // sets the format of returned value 
+    var destinationType; // sets the format of returned value
 
     document.addEventListener("deviceready",onDeviceReady,false);
 
@@ -227,9 +231,12 @@ document.getElementById('swatches').innerHTML = "";
     function capturePhoto() {
         if (navigator.camera) {
         	// alert("taking a photo now")
-            navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50, destinationType: destinationType.DATA_URL });
+            navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 1, 
+                targetWidth: 200,
+                targetHeight: 200,
+                destinationType: destinationType.DATA_URL });
         } else {
-            document.getElementById("captureButton").innerHTML = "Camera not found" 
+            document.getElementById("captureButton").innerHTML = "Camera not found"
             console.log("phonegap camera not available");
         }
     }
@@ -242,7 +249,7 @@ document.getElementById('swatches').innerHTML = "";
       draw(smallImage);
     }
 
-    
+
 
     function onFail(message) {
     	//navigator.notification.alert("fail");
@@ -257,7 +264,7 @@ document.getElementById('swatches').innerHTML = "";
                 sourceType: pictureSource.PHOTOLIBRARY
             })
         } else {
-            
+
         }
     }
     function gallerySuccess(imageData) {
@@ -266,17 +273,17 @@ document.getElementById('swatches').innerHTML = "";
     }
 
     </script>
-    
+
   </head>
   <body id="body">
     <button id="captureButton" style="font-size:200%;" onclick="capturePhoto();" aria-controls="col" value="Take a photo">Take Photo</button> <br>
     <button id="galleryButton" style="font-size:200%;" onclick="drawPhotoFromGallery();" type="button" aria-controls="col"/>Camera roll</button><br/>
-  
+
     <div style="width:100%;text-align:center">
       <img style="height:120px ;" id="smallImage" src="" alt="" />
     </div>
-    <canvas class="hidden" id="canvas" width="9" height="16"></canvas>
-        
+    <canvas class="hidden" id="canvas" width="20" height="20"></canvas>
+
     <form id="image">
 
 
@@ -323,18 +330,18 @@ document.getElementById('swatches').innerHTML = "";
 
 
 </form>
-    
+
         <!-- i18n -->
-    
+
     <script type="text/javascript">
         var languageCode = navigator.language.substr(0,2);
         var translations = {};
-        
-        
+
+
         if (languageCode == "en") {
           document.getElementById("col").innerHTML = "No change " + languageCode;
         } else {
-        
+
           document.getElementById("col").innerHTML = "Change " + languageCode;
           var colour_i18n = document.createElement('script');
           var body = document.getElementById("body");
@@ -342,24 +349,24 @@ document.getElementById('swatches').innerHTML = "";
           body.appendChild(colour_i18n);
         }
 
-        
+
     </script>
-                
+
    <!--  <script type="text/javascript" charset="utf-8" src="ntc2_fr.js"></script>
     <script type="text/javascript"> ntc.init(); -->
 
-        
-        
+
+
      </script>
-    
+
 
 
     <!-- end i18n -->
-    
+
     <script type=text/javascript>
-    
-        
+
+
         </script>
-    
+
   </body>
 </html>
