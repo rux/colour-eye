@@ -16,12 +16,21 @@
    <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
     <script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
     
+    <script type="text/javascript" charset="utf-8" src="CanvasCamera.js"></script>
+    
 
 
 
 
     <script type="text/javascript">
 
+
+  CanvasCamera.capture = function(data) {
+    document.getElementById('camera').src = data;
+  }
+  document.addEventListener("deviceready", function() {
+    CanvasCamera.start();
+  });
 
 
 
@@ -280,9 +289,14 @@ document.getElementById('swatches').innerHTML = "";
     <button id="galleryButton" style="font-size:200%;" onclick="drawPhotoFromGallery();" type="button" aria-controls="col"/>Camera roll</button><br/>
 
     <div style="width:100%;text-align:center">
+      <img id="camera" width="352" height="288" />
+    </div>
+    
+    <div style="width:100%;text-align:center">
       <img style="height:120px ;" id="smallImage" src="" alt="" />
     </div>
-    <canvas class="hidden" id="canvas" width="20" height="20"></canvas>
+    
+    <canvas class="hidden" id="canvas" width="16" height="16"></canvas>
 
     <form id="image">
 

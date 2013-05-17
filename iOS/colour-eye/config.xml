@@ -57,6 +57,9 @@
         <plugin name="Battery" value="CDVBattery" />
         <plugin name="Globalization" value="CDVGlobalization" />
         <plugin name="InAppBrowser" value="CDVInAppBrowser" />
+        
+        
+        <plugin name="CanvasCamera" value="CanvasCamera" />
     </plugins>
 
     <access origin="*" />
