@@ -13,6 +13,9 @@
         }
         document.addEventListener("deviceready", function() {
             CanvasCamera.start();
+            
+            
+            setTimeout(seeLive(), 5000);
         });
 
 
@@ -172,10 +175,10 @@ lum= ntc.luminance[0];
 prefix=prefix+lum+' ';
 }
 if (i==0) {
-document.getElementById('col').value="";
+document.getElementById('col').innerHTML="";
 
 document.getElementById('swatches').innerHTML = "";
- document.bgColor = colour;
+ // document.bgColor = colour;
  document.getElementById('width').value=img.width;
  document.getElementById('height').value=img.height;
  document.getElementById('red').value=data[pix.pixel];
@@ -185,10 +188,15 @@ document.getElementById('swatches').innerHTML = "";
  document.getElementById('sat').value=sat;
  document.getElementById('lum').value=lum;
 }
- document.getElementById('col').value+= perc+"% "+prefix + n_match[3].toLowerCase() +' - '+ n_match[1]+".\n";
-// document.getElementById('col').value+=perc+" "+prefix + n_match[3]+"\n";
- //document.getElementById('col').focus();
- document.getElementById('swatches').innerHTML += '<div style="width:2em; height:'+ perc/10 + 'em; background-color:'+ n_match[0] +'">&nbsp;</div>';
+
+// this is the double description
+// document.getElementById('col').innerHTML+= "<div>" + perc + "% "+prefix + n_match[3].toLowerCase() +' - '+ n_match[1]+"</div>";
+
+// This is the swifter (more efficient) description
+ document.getElementById('col').innerHTML+= "<div>" + perc + "% "+ n_match[1]+"</div>";
+ 
+
+ document.getElementById('swatches').innerHTML += '<div style="height:'+ perc/9 + 'em; background-color:'+ n_match[0] +'">&nbsp;</div>';
 }
 //document.getElementById('col').focus();
  delete img;
@@ -209,21 +217,38 @@ document.getElementById('swatches').innerHTML = "";
         function seeLive() {
             var camera = document.getElementById("camera");
             var cameraStill = document.getElementById("camera-still");
+            
+            cameraStill.style.setProperty("left", "0px");
+            
             cameraStill.src = camera.src;
+            
+              setTimeout(function(){ // timeout allows the clearing of the transition, otherwise it optimises and never moves
+                cameraStill.style.setProperty("-webkit-transition", "left 1s ease-out");
+                cameraStill.style.setProperty("transition", "left 1s ease-out");
+                cameraStill.style.setProperty("left", "160px");
+            }, 1)
+            
             draw(camera);
         }
 
+
+    
     </script>
 
 
     <style type="text/css">
-    	body {font-family: arial,sans-serif;}
+    	body {font-family: arial,sans-serif; padding:0px; margin:0px}
     	canvas { margin:0px auto;
           border:3px solid green;
         }
         .hidden { display:none; }
         .camera-holder {width:100%; text-align:center;}
         .camera-image { width:50% ; padding:0px; margin:0px;}
+        .colour-names {display:inline-block; width:80%; padding:5px; margin:0px; background-color:#eee}
+        
+        .results {width:100%;}
+        .swatches-holder { display:inline-block; width:10%; padding:0px; margin:0px}
+        .swatches { border:1px solid black; padding:0px; margin:0px; background-color:#888}
     </style>
 
   </head>
@@ -234,11 +259,11 @@ document.getElementById('swatches').innerHTML = "";
     
     <canvas class="hidden" id="canvas" width="16" height="16"></canvas>
 
-    <form id="image">
-<label for="col" >Colours:</label><br/>
 
-<div id="swatches" style="border:1px solid black; float:left"></div>
-<textarea name="col" id="col" cols="30" rows="10" role="log" aria-live="assertive"></textarea>
+    <div class="results"><div id="col" class="colour-names" role="log" aria-live="assertive"></div><div class="swatches-holder"><div id="swatches" class="swatches"></div></div></div>
+
+    <form id="image">
+
 
 
 <label class="hidden" for="bgcolor">bgcolor:</label>
@@ -285,10 +310,10 @@ document.getElementById('swatches').innerHTML = "";
 
 
         if (languageCode == "en") {
-          document.getElementById("col").innerHTML = "No change " + languageCode;
+          // document.getElementById("col").innerHTML = "No change " + languageCode;
         } else {
 
-          document.getElementById("col").innerHTML = "Change " + languageCode;
+          // document.getElementById("col").innerHTML = "Change " + languageCode;
           var colour_i18n = document.createElement('script');
           var body = document.getElementById("body");
           colour_i18n.src = "ntc2_" + languageCode + ".js";
