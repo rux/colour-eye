@@ -2,36 +2,18 @@
 <html>
   <head>
     <title>Capture Photo</title>
-
-    <style type="text/css">
-    	body {font-family: arial,sans-serif;}
-    	button { width:100%; size:200%; }
-    	canvas { margin:0px auto;
-          border:3px solid green;
-        }
-        .hidden { display:none; }
-    </style>
-
     <script type="text/javascript" charset="utf-8" src="cordova-2.7.0.js"></script>
-   <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
+    <!--  <script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
     <script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
-    
     <script type="text/javascript" charset="utf-8" src="CanvasCamera.js"></script>
-    
-
-
-
-
     <script type="text/javascript">
 
-
-  CanvasCamera.capture = function(data) {
-    document.getElementById('camera').src = data;
-  }
-  document.addEventListener("deviceready", function() {
-    CanvasCamera.start();
-  });
-
+        CanvasCamera.capture = function(data) {
+            document.getElementById('camera').src = data;
+        }
+        document.addEventListener("deviceready", function() {
+            CanvasCamera.start();
+        });
 
 
 
@@ -224,85 +206,35 @@ document.getElementById('swatches').innerHTML = "";
 
 
 
-
-
-    var pictureSource;   // picture source
-    var destinationType; // sets the format of returned value
-
-    document.addEventListener("deviceready",onDeviceReady,false);
-
-    function onDeviceReady() {
-        pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
-    }
-
-
-    function capturePhoto() {
-        if (navigator.camera) {
-        	// alert("taking a photo now")
-            navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 1, 
-                targetWidth: 200,
-                targetHeight: 200,
-                destinationType: destinationType.DATA_URL });
-        } else {
-            document.getElementById("captureButton").innerHTML = "Camera not found"
-            console.log("phonegap camera not available");
+        function seeLive() {
+            var camera = document.getElementById("camera");
+            var cameraStill = document.getElementById("camera-still");
+            cameraStill.src = camera.src;
+            draw(camera);
         }
-    }
-
-    function onPhotoDataSuccess(imageData) {
-    	// alert("Successfully called back");
-      var smallImage = document.getElementById('smallImage');
-      // smallImage.style.display = 'block';
-      smallImage.src = "data:image/jpeg;base64," + imageData;
-      draw(smallImage);
-    }
-
-
-
-    function onFail(message) {
-    	//navigator.notification.alert("fail");
-      alert('Failed because: ' + message);
-    }
-
-
-    function drawPhotoFromGallery() {
-        if (navigator.camera) {
-            navigator.camera.getPicture(gallerySuccess, onFail, {
-                destinationType: destinationType.FILE_URI,
-                sourceType: pictureSource.PHOTOLIBRARY
-            })
-        } else {
-
-        }
-    }
-    function gallerySuccess(imageData) {
-        document.getElementById("smallImage").src = imageData
-        draw(document.getElementById('smallImage'));
-    }
 
     </script>
 
-  </head>
-  <body id="body">
-    <button id="captureButton" style="font-size:200%;" onclick="capturePhoto();" aria-controls="col" value="Take a photo">Take Photo</button> <br>
-    <button id="galleryButton" style="font-size:200%;" onclick="drawPhotoFromGallery();" type="button" aria-controls="col"/>Camera roll</button><br/>
 
-    <div style="width:100%;text-align:center">
-      <img id="camera" width="352" height="288" />
-    </div>
-    
-    <div style="width:100%;text-align:center">
-      <img style="height:120px ;" id="smallImage" src="" alt="" />
-    </div>
+    <style type="text/css">
+    	body {font-family: arial,sans-serif;}
+    	canvas { margin:0px auto;
+          border:3px solid green;
+        }
+        .hidden { display:none; }
+        .camera-holder {width:100%; text-align:center;}
+        .camera-image { width:50% ; padding:0px; margin:0px;}
+    </style>
+
+  </head>
+  <body id="body" onclick="seeLive();" >
+
+      <!-- <img id="camera" width="352" height="288" /> -->
+    <div id="camera-holder" id="camera-holder"><img id="camera" class="camera-image"/><img id="camera-still" class="camera-image"/></div>
     
     <canvas class="hidden" id="canvas" width="16" height="16"></canvas>
 
     <form id="image">
-
-
-
-
 <label for="col" >Colours:</label><br/>
 
 <div id="swatches" style="border:1px solid black; float:left"></div>

@@ -52,7 +52,7 @@
     CGContextRelease(newContext);
     CGColorSpaceRelease(colorSpace);
     
-    UIImage *image= [UIImage imageWithCGImage:newImage scale:1.0 orientation:UIImageOrientationUp];
+    UIImage *image= [UIImage imageWithCGImage:newImage scale:1.0 orientation:UIImageOrientationRight];
     
     NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     NSString *encodedString = [imageData base64Encoding];
