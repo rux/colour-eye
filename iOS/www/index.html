@@ -8,17 +8,6 @@
     <script type="text/javascript" charset="utf-8" src="CanvasCamera.js"></script>
     <script type="text/javascript">
 
-        CanvasCamera.capture = function(data) {
-            document.getElementById('camera').src = data;
-        }
-        document.addEventListener("deviceready", function() {
-            CanvasCamera.start();
-            
-            
-            setTimeout(seeLive(), 5000);
-        });
-
-
 
 var coldata;
  var maxcol=ntc.shade.length;
@@ -135,6 +124,10 @@ ldata.sort(cmpLength);
  var result=colplace[ldata[0][0]];
  return result;
 }
+
+
+
+
 function draw(freshimage) {
 var orig = document.getElementById('canvas');
  var ctx = orig.getContext('2d');
@@ -153,7 +146,7 @@ var orig = document.getElementById('canvas');
  ((i<maxcol) && (coldata[i].length>0));
  i++) {
 pix =detectColour(i, data);
- var perc=Math.floor(coldata[i].length/(data.length/4000))/10;
+ var perc=Math.round(Math.floor(coldata[i].length/(data.length/4000))/10);
  colour = rgb2html(data[pix.pixel], data[pix.pixel+1], data[pix.pixel+2]);
  n_match = pix.colour;
  hsl=pix.hsl;
@@ -176,6 +169,8 @@ prefix=prefix+lum+' ';
 }
 if (i==0) {
 document.getElementById('col').innerHTML="";
+    //return focus to containing div
+    document.getElementById('col').focus();
 
 document.getElementById('swatches').innerHTML = "";
  // document.bgColor = colour;
@@ -189,20 +184,23 @@ document.getElementById('swatches').innerHTML = "";
  document.getElementById('lum').value=lum;
 }
 
-// this is the double description
-// document.getElementById('col').innerHTML+= "<div>" + perc + "% "+prefix + n_match[3].toLowerCase() +' - '+ n_match[1]+"</div>";
 
-// This is the swifter (more efficient) description
+ if (perc > 1) {
+ // this is the double description
+ // document.getElementById('col').innerHTML+= "<div>" + perc + "% "+prefix + n_match[3].toLowerCase() +' - '+ n_match[1]+"</div>";
+
+ // This is the swifter (more efficient) description
  document.getElementById('col').innerHTML+= "<div>" + perc + "% "+ n_match[1]+"</div>";
- 
-
  document.getElementById('swatches').innerHTML += '<div style="height:'+ perc/9 + 'em; background-color:'+ n_match[0] +'">&nbsp;</div>';
+ }
 }
-//document.getElementById('col').focus();
+
  delete img;
     }
     
     img.src = freshimage.src;
+    
+
 }
 
 
@@ -218,18 +216,22 @@ document.getElementById('swatches').innerHTML = "";
             var camera = document.getElementById("camera");
             var cameraStill = document.getElementById("camera-still");
             
-            cameraStill.style.setProperty("left", "0px");
-            
             cameraStill.src = camera.src;
-            
-              setTimeout(function(){ // timeout allows the clearing of the transition, otherwise it optimises and never moves
-                cameraStill.style.setProperty("-webkit-transition", "left 1s ease-out");
-                cameraStill.style.setProperty("transition", "left 1s ease-out");
-                cameraStill.style.setProperty("left", "160px");
-            }, 1)
-            
+
             draw(camera);
+
         }
+
+
+
+        CanvasCamera.capture = function(data) {
+            document.getElementById('camera').src = data;
+        }
+        document.addEventListener("deviceready", function() {
+            CanvasCamera.start();
+            interval = setInterval(seeLive, 12000);
+        });
+
 
 
     
@@ -255,12 +257,12 @@ document.getElementById('swatches').innerHTML = "";
   <body id="body" onclick="seeLive();" >
 
       <!-- <img id="camera" width="352" height="288" /> -->
-    <div id="camera-holder" id="camera-holder"><img id="camera" class="camera-image"/><img id="camera-still" class="camera-image"/></div>
+    <div id="camera-holder" id="camera-holder"><img id="camera" class="camera-image" alt="Colour analysis will happen every 12 seconds. Please point the camera at what you would like to have analysed."/><img id="camera-still" class="camera-image"/></div>
     
     <canvas class="hidden" id="canvas" width="16" height="16"></canvas>
 
 
-    <div class="results"><div id="col" class="colour-names" role="log" aria-live="assertive"></div><div class="swatches-holder"><div id="swatches" class="swatches"></div></div></div>
+    <div class="results"><div id="col" class="colour-names" role="log" aria-live="assertive" aria-atomic="true"></div><div class="swatches-holder"><div id="swatches" class="swatches"></div></div></div>
 
     <form id="image">
 
