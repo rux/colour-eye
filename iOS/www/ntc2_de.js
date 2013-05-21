@@ -2,13 +2,13 @@
 
 
 
-  
+
 ntc.saturation = [
     "Gesättigt",
     "Mittel",
     "Blass"
   ],
-  
+
 ntc.luminance = [
     "Leuchtend",
     "Mittel",
@@ -31,16 +31,16 @@ ntc.shade = [
 
 
 ntc.shades = [
-["FF0000", "Rot"],
-["FFA500", "Orange"],
-["FFFF00", "Gelb"],
-["008000", "Grün"],
-["0000FF", "Blau"],
-["ac35ce", "Violett"],
-["623d0d", "Braun"],
-["000000", "Schwarz"],
-["808080", "Grau"],
-["FFFFFF", "Weiß"]
+["A52019", "Rot"],
+["D84B20", "Orange"],
+["E5BE01", "Gelb"],
+["317F43", "Grün"],
+["1E2460", "Blau"],
+["924E7D", "Violett"],
+["6C3B2A", "Braun"],
+["111111", "Schwarz"],
+["999999", "Grau"],
+["F4F4F4", "Weiß"]
 ],
 
 
