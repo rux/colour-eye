@@ -47,7 +47,7 @@ var ntc = {
   },
 
   name: function(color) {
-  
+
     if(this.names[0].length==3) {   // this gets called if the colours have been swapped, and we have
         this.init()                 // to regenerate the additional colour info
     }
@@ -118,7 +118,7 @@ var ntc = {
   rgb: function(color) {
     return [parseInt('0x' + color.substring(1, 3)), parseInt('0x' + color.substring(3, 5)),  parseInt('0x' + color.substring(5, 7))];
   },
-  
+
   shadergb: function (shadename) {
     for(var i = 0; i < ntc.shades.length; i++) {
       if(shadename == ntc.shades[i][1])
@@ -126,14 +126,14 @@ var ntc = {
     }
     return "#000000";
   },
-  
-  
+
+
   saturation: [
     "Strong",
     "Medium",
     "Weak"
   ],
-  
+
   luminance: [
     "Light",
     "Medium",
@@ -153,16 +153,16 @@ var ntc = {
 "White"
 ],
   shades: [
- ["FF0000", "Red"],
-["FFA500", "Orange"],
-["FFFF00", "Yellow"],
-["008000", "Green"],
-["0000FF", "Blue"],
-["ac35ce", "Violet"],
-["623d0d", "Brown"],
-["000000", "Black"],
-["808080", "Grey"],
-["FFFFFF", "White"]
+ ["A52019", "Red"],
+["D84B20", "Orange"],
+["E5BE01", "Yellow"],
+["317F43", "Green"],
+["1E2460", "Blue"],
+["924E7D", "Violet"],
+["6C3B2A", "Brown"],
+["111111", "Black"],
+["999999", "Grey"],
+["F4F4F4", "White"]
 ],
 
 
