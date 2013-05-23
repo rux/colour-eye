@@ -195,7 +195,8 @@
 					// document.getElementById('col').innerHTML+= "<div>" + perc + "% "+prefix + n_match[3].toLowerCase() +' - '+ n_match[1]+"</div>";
 
 					// This is the swifter (more efficient) description
-					document.getElementById('col').innerHTML+= "<div>" + perc + "% "+ n_match[1]+"</div>";
+					//document.getElementById('col').innerHTML+= "<div>" + perc + "% "+ n_match[1]+"</div>";
+					document.getElementById('col').innerHTML+= perc + "% "+ n_match[1]+".\n";
 					document.getElementById('swatches').innerHTML += '<div style="height:'+ perc/9 + 'em; background-color:'+ n_match[0] +'">&nbsp;</div>';
 				}
 			}
@@ -259,7 +260,7 @@
 		<canvas class="hidden" id="canvas" width="12" height="15"></canvas>
 
 
-		<div class="results"><div id="col" class="colour-names" role="log" aria-live="assertive" aria-atomic="true"></div><div class="swatches-holder"><div id="swatches" class="swatches"></div></div></div>
+		<div class="results"><textarea id="col" rows="12" class="colour-names" role="log" aria-live="assertive" aria-atomic="true" tabindex="-1"></textarea><div class="swatches-holder"><div id="swatches" class="swatches"></div></div></div>
 
 		<form id="image">
 
