@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    	<meta charset='utf-8'>
+		<title>Capture Photo</title>
+		<!--	<script src="http://10.92.16.227:8080/target/target-script-min.js#anonymous"></script> -->
+		<script type="text/javascript" charset="utf-8" src="ntc2_en.js"></script>
+		<script type="text/javascript" charset="utf-8" src="identify_colours.js"></script>
+		<script type="text/javascript">
+
+
+		// this stuff is Firefox OS specific, ie can't be generalised out
+
+	var seeLive = function() {
+			var camera = document.getElementById("camera");
+			var cameraStill = document.getElementById("camera-still");
+
+			cameraStill.src = camera.src;
+
+			draw(camera);
+
+	}
+
+
+
+var pick = new MozActivity({
+   name: "pick",
+   data: {
+       type: ["image/png", "image/jpg", "image/jpeg"]
+    }
+});
+
+pick.onsuccess = function () { 
+    // Create image and set the returned blob as the src
+    var img = document.createElement("img");
+    img.src = window.URL.createObjectURL(this.result.blob);
+ 
+    // Present that image in your app
+    var imagePresenter = document.querySelector("#camera");
+    imagePresenter.appendChild(img);
+};
+ 
+pick.onerror = function () { 
+    // If an error occurred or the user canceled the activity
+    alert("Can't view the image!");
+};
+
+
+		</script>
+
+
+		<style type="text/css">
+			body {font-family: arial,sans-serif; padding:0px; margin:0px}
+			canvas { margin:0px auto;
+					border:3px solid green;
+				}
+				.hidden { display:none; }
+				.camera-holder {width:100%; text-align:center;}
+				.camera-image { width:50% ; padding:0px; margin:0px;}
+				.colour-names {display:inline-block; width:80%; padding:5px; margin:0px; background-color:#eee}
+
+				.results {width:100%;}
+				.swatches-holder { display:inline-block; width:10%; padding:0px; margin:0px}
+				.swatches { border:1px solid black; padding:0px; margin:0px; background-color:#888}
+		</style>
+
+	</head>
+	<body id="body" onclick="seeLive();" >
+
+			<!-- <img id="camera" width="352" height="288" /> -->
+		<div id="camera-holder" id="camera-holder"><img id="camera" class="camera-image" alt="Colour analysis will happen every 12 seconds. Please point the camera at what you would like to have analysed."/><img id="camera-still" class="camera-image"/></div>
+
+		<canvas class="hidden" id="canvas" width="12" height="15"></canvas>
+
+
+		<div class="results"><textarea id="col" rows="12" class="colour-names" role="log" aria-live="assertive" aria-atomic="true" tabindex="-1"></textarea><div class="swatches-holder"><div id="swatches" class="swatches"></div></div></div>
+
+		<form id="image">
+
+
+
+<label class="hidden" for="bgcolor">bgcolor:</label>
+<input class="hidden" type="text" name="bgcolor" id="bgcolor" value="" /><br/>
+
+<label class="hidden" for="sat">Saturation:</label>
+<input class="hidden" type="text" name="sat" id="sat" value="" /><br/>
+
+<label class="hidden" for="lum">Brightness:</label>
+<input class="hidden" type="text" name="lum" id="lum" value="" /><br/>
+
+
+
+
+<label class="hidden" for="width">Width:</label>
+<input class="hidden"	type="text" name="width" id="width" value="" /><br/>
+<label class="hidden"	for="height">Height: </label>
+<input class="hidden"	type="text" name="height" id="height" value="" /> <br/>
+
+<label class="hidden"	for="red">red:</label>
+<input class="hidden"	type="text" name="red" id="red" value="" /><br/>
+<label class="hidden"	for="green">green:</label>
+<input class="hidden"	type="text" name="green" id="green" value="" /><br/>
+<label class="hidden"	for="blue">blue:</label>
+<input class="hidden"	type="text" name="blue" id="blue" value="" /><br/>
+
+
+<label class="hidden"	for="bgcolor">bgcolor:</label>
+<input class="hidden"	type="text" name="bgcolor" id="bgcolor" value="" /><br/>
+
+<label class="hidden"	for="hslint">HSL long integer:</label>
+<input class="hidden"	type="text" name="hslint" id="hslint" value="" /><br/>
+
+
+
+
+</form>
+
+				<!-- i18n -->
+
+		<script type="text/javascript">
+				var languageCode = navigator.language.substr(0,2);
+				var translations = {};
+
+
+				if (languageCode == "en") {
+					// document.getElementById("col").innerHTML = "No change " + languageCode;
+				} else {
+
+					// document.getElementById("col").innerHTML = "Change " + languageCode;
+					var colour_i18n = document.createElement('script');
+					var body = document.getElementById("body");
+					colour_i18n.src = "ntc2_" + languageCode + ".js";
+					body.appendChild(colour_i18n);
+				}
+
+
+		</script>
+
+	</body>
+</html>

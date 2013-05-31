@@ -1,0 +1,27 @@
+{
+	"name": "Colour Eye",
+	"description": "Analysis of colours in a photo, for colour blind or fully blind people",
+	"launch_path": "index.html",
+	"icons": {
+		"128": "icon.png"
+	},
+	"developer": {
+		"name": "Rux",
+		"url": "http://twitter.com/russ_anderson"
+	},
+	"default_locale": "en",
+
+
+	  "activities": {
+	 
+	    "pick": {
+	      "href": "./index.html",
+	      "disposition": "inline",
+	      "filters": {
+	        "type": ["image/*","image/jpeg","image/png"]
+	      },
+	      "returnValue": true
+	    }
+	  }
+
+}
