@@ -22,7 +22,6 @@
 	}
 
 
-
 var pick = new MozActivity({
    name: "pick",
    data: {
@@ -32,12 +31,11 @@ var pick = new MozActivity({
 
 pick.onsuccess = function () { 
     // Create image and set the returned blob as the src
-    var img = document.createElement("img");
-    img.src = window.URL.createObjectURL(this.result.blob);
+			var camera = document.getElementById("camera");
+    		camera.src = window.URL.createObjectURL(this.result.blob);
  
     // Present that image in your app
-    var imagePresenter = document.querySelector("#camera");
-    imagePresenter.appendChild(img);
+    seeLive();
 };
  
 pick.onerror = function () { 
@@ -73,7 +71,7 @@ pick.onerror = function () { 
 		<canvas class="hidden" id="canvas" width="12" height="15"></canvas>
 
 
-		<div class="results"><textarea id="col" rows="12" class="colour-names" role="log" aria-live="assertive" aria-atomic="true" tabindex="-1"></textarea><div class="swatches-holder"><div id="swatches" class="swatches"></div></div></div>
+		<div class="results"><textarea disabled id="col" rows="12" class="colour-names" role="log" aria-live="assertive" aria-atomic="true" tabindex="-1"></textarea><div class="swatches-holder"><div id="swatches" class="swatches"></div></div></div>
 
 		<form id="image">
 

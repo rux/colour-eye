@@ -9,19 +9,6 @@
 		"name": "Rux",
 		"url": "http://twitter.com/russ_anderson"
 	},
-	"default_locale": "en",
-
-
-	  "activities": {
-	 
-	    "pick": {
-	      "href": "./index.html",
-	      "disposition": "inline",
-	      "filters": {
-	        "type": ["image/*","image/jpeg","image/png"]
-	      },
-	      "returnValue": true
-	    }
-	  }
+	"default_locale": "en"
 
 }
