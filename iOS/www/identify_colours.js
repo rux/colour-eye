@@ -163,7 +163,7 @@ function draw(freshimage) {
 				prefix=prefix+lum+' ';
 			}
 			if (i==0) {
-				document.getElementById('col').innerHTML="";
+				document.getElementById('col').innerHTML="The camera sees \n";
 				//return focus to containing div
 				document.getElementById('col').focus();
 
