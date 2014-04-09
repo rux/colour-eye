@@ -19,6 +19,9 @@
 @property (nonatomic, strong) AVCaptureDeviceInput *input;
 @property (nonatomic, strong) AVCaptureVideoDataOutput *output;
 
+
+- (void)startCapture:(NSMutableArray*)arguments;
+
 - (void)startCapture:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 @end

@@ -1,30 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.hibu.coloureye" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <preference name="AllowInlineMediaPlayback" value="false" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="BackupWebStorage" value="cloud" />
+    <preference name="DisallowOverscroll" value="false" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="FadeSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value=".25" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="true" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="TopActivityIndicator" value="gray" />
+    <preference name="GapBetweenPages" value="0" />
+    <preference name="PageLength" value="0" />
+    <preference name="PaginationBreakingMode" value="page" />
+    <preference name="PaginationMode" value="unpaginated" />
+    <feature name="LocalStorage">
+        <param name="ios-package" value="CDVLocalStorage" />
+    </feature>
+    <name>Colour Eye</name>
+    <description>
+        A tool to assist colour blind, partially sighted and blind people work out what colour things are
+    </description>
+    <author email="russ.anderson@gmail.com" href="http://twitter.com/russ_anderson">
+        Russ Anderson and Artur Ortega
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <feature name="Camera">
+        <param name="ios-package" value="CDVCamera" />
+    </feature>
+    
+    <feature name="CanvasCamera">
+        <param name="ios-package" value="CanvasCamera" />
+    </feature>
+</widget>
+
+
+
+
+
+
 <!--
-#
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-# 
-# http://www.apache.org/licenses/LICENSE-2.0
-# 
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#  KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
-#
--->
+<?xml version="1.0" encoding="UTF-8"?>
+
+
 <widget>
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="AutoHideSplashScreen" value="true" />
     <preference name="BackupWebStorage" value="cloud" />
     <preference name="DisallowOverscroll" value="false" />
-    <preference name="EnableLocation" value="false" /><!-- DEPRECATED -->
+    <preference name="EnableLocation" value="false" />
     <preference name="EnableViewportScale" value="false" />
     <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value=".25" />
@@ -57,10 +84,9 @@
         <plugin name="Battery" value="CDVBattery" />
         <plugin name="Globalization" value="CDVGlobalization" />
         <plugin name="InAppBrowser" value="CDVInAppBrowser" />
-        
-        
         <plugin name="CanvasCamera" value="CanvasCamera" />
     </plugins>
 
     <access origin="*" />
 </widget>
+-->

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AF906811-D87A-49F1-96B6-118C9F4121A9</string>
+	<key>IDESourceControlProjectName</key>
+	<string>colour-eye</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>64A3CFBE-44C3-4F16-9B3A-12D4AFA0C671</key>
+		<string>ssh://github.com/YellLabs/colour-eye.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>iOS/colour-eye.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>64A3CFBE-44C3-4F16-9B3A-12D4AFA0C671</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/YellLabs/colour-eye.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>64A3CFBE-44C3-4F16-9B3A-12D4AFA0C671</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>64A3CFBE-44C3-4F16-9B3A-12D4AFA0C671</string>
+			<key>IDESourceControlWCCName</key>
+			<string>colour-eye</string>
+		</dict>
+	</array>
+</dict>
+</plist>

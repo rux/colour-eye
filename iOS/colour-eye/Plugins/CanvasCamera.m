@@ -10,6 +10,11 @@
 
 @implementation CanvasCamera
 
+- (void)startCapture:(NSMutableArray *)arguments
+{
+    return [self startCapture:arguments withDict:nil];
+}
+
 - (void)startCapture:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
     // TODO: add support for options (fps, capture quality, capture format, etc.)
